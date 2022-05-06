@@ -5,13 +5,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../main.dart';
 
-class Login extends StatelessWidget {
-  Login({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
-  String _user_id = "";
-  String _user_password = "";
-  String error_login = "";
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
 
+class _LoginScreenState extends State<LoginScreen> {
   void doLogin() async {
     print(_user_id);
     print(_user_password);
@@ -21,6 +22,8 @@ class Login extends StatelessWidget {
     if (response.statusCode == 200) {
       Map json = jsonDecode(response.body);
       if (json['result'] == 'success') {
+        print(json['data'][0]['nama']);
+        print(json['data'][0]['username']);
         final prefs = await SharedPreferences.getInstance();
         prefs.setString("user_id", json['data'][0]['nama']);
         prefs.setString("username", json['data'][0]['username']);
@@ -32,6 +35,10 @@ class Login extends StatelessWidget {
       throw Exception('Failed to read API');
     }
   }
+
+  String _user_id = "";
+  String _user_password = "";
+  String error_login = "";
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +86,7 @@ class Login extends StatelessWidget {
               height: 50,
               padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: ElevatedButton(
-                child: Text('Ini Login Screen'),
+                child: Text('Login haha'),
                 onPressed: () {
                   doLogin();
                 },
@@ -87,15 +94,15 @@ class Login extends StatelessWidget {
           Row(
             children: <Widget>[
               const Text('Belum punya akun ?'),
-              TextButton(
-                child: const Text(
-                  'Daftar Disini',
-                  style: TextStyle(fontSize: 14),
+              Builder(
+                builder: (context) => TextButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Register()));
+                  },
+                  child: Text('Daftar Disini'),
                 ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/data-user');
-                },
-              )
+              ),
             ],
             mainAxisAlignment: MainAxisAlignment.center,
           ),

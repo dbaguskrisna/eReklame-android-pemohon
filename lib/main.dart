@@ -3,7 +3,7 @@ import 'package:ereklame_pemohon/screen/data_login.dart';
 import 'package:ereklame_pemohon/screen/data_user.dart';
 import 'package:ereklame_pemohon/screen/home.dart';
 import 'package:ereklame_pemohon/screen/lihat_data_reklame.dart';
-import 'package:ereklame_pemohon/screen/login_screen.dart';
+import 'package:ereklame_pemohon/screen/login.dart';
 import 'package:ereklame_pemohon/screen/main_2.dart';
 import 'package:ereklame_pemohon/screen/maps.dart';
 import 'package:ereklame_pemohon/screen/panduan.dart';
@@ -15,14 +15,22 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 String active_user = "";
+String active_username = "";
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   checkUser().then((String result) {
     if (result == '')
-      runApp(Login());
+      runApp(LoginScreen());
     else {
       active_user = result;
+      checkUsername().then((String result2) {
+        if (result2 == '')
+          active_username = "username not found";
+        else {
+          active_username = result2;
+        }
+      });
       runApp(MyApp());
     }
   });
@@ -32,6 +40,12 @@ Future<String> checkUser() async {
   final prefs = await SharedPreferences.getInstance();
   String user_id = prefs.getString("user_id") ?? '';
   return user_id;
+}
+
+Future<String> checkUsername() async {
+  final prefs = await SharedPreferences.getInstance();
+  String username = prefs.getString("username") ?? '';
+  return username;
 }
 
 class MyApp extends StatelessWidget {
@@ -53,7 +67,6 @@ class MyApp extends StatelessWidget {
         '/cek-status': (context) => CekStatus(),
         '/panduan': (context) => Panduan(),
         '/permohonan': (context) => PermohonanBaru(),
-        '/login-page': (context) => MyApp()
       },
     );
   }

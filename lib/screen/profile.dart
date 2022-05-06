@@ -28,7 +28,8 @@ class Profile extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    "Ida Bagus Krisna",
+                    active_user,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   Text(

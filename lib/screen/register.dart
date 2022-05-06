@@ -12,7 +12,6 @@ class Register extends StatelessWidget {
       home: Scaffold(
         body: MyStatefulWidget(),
       ),
-      routes: {'/sign-up': (context) => Register()},
     );
   }
 }
@@ -25,6 +24,8 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  bool _isHidden1 = true;
+
   final nama_lengkap = TextEditingController();
   final alamat = TextEditingController();
   final nomor_handphone = TextEditingController();
@@ -55,6 +56,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     } else {
       throw Exception('Failed to read API');
     }
+  }
+
+  void _togglePasswordView() {
+    setState(() {
+      _isHidden1 = !_isHidden1;
+    });
   }
 
   @override
@@ -183,31 +190,31 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               padding: EdgeInsets.all(10),
               child: TextFormField(
-                decoration: InputDecoration(
-                    hintText: 'Masukkan Password',
-                    border: OutlineInputBorder()),
                 controller: password,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
+                obscureText: _isHidden1,
+                decoration: InputDecoration(
+                  hintText: 'Password',
+                  border: OutlineInputBorder(),
+                  suffix: InkWell(
+                    onTap: _togglePasswordView,
+                    child: Icon(Icons.visibility),
+                  ),
+                ),
               ),
             ),
             Container(
               padding: EdgeInsets.all(10),
               child: TextFormField(
-                decoration: InputDecoration(
-                    hintText: 'Konfirmasi Password',
-                    border: OutlineInputBorder()),
                 controller: konfirmasiPassword,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
+                obscureText: _isHidden1,
+                decoration: InputDecoration(
+                  hintText: 'Halo',
+                  border: OutlineInputBorder(),
+                  suffix: InkWell(
+                    onTap: _togglePasswordView,
+                    child: Icon(Icons.visibility),
+                  ),
+                ),
               ),
             ),
             Container(
