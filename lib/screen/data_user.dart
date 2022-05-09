@@ -26,7 +26,7 @@ class _DataUserState extends State<DataUser> {
     fetchData().then((value) {
       Map json = jsonDecode(value);
       profiles = Profile.fromJson(json['data'][0]);
-      print(profiles!.alamat);
+      print(json);
       setState(() {});
     });
   }
@@ -69,7 +69,7 @@ class _DataUserState extends State<DataUser> {
           Container(
             padding: EdgeInsets.all(10),
             child: TextFormField(
-              initialValue: profiles!.username,
+              initialValue: profiles?.username,
               decoration: InputDecoration(
                   hintText: 'Username', border: OutlineInputBorder()),
             ),

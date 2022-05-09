@@ -112,7 +112,9 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                   child: TextFormField(
                     controller: konfirmasi_alamat_email,
                     decoration: InputDecoration(
-                        hintText: 'Email', border: OutlineInputBorder()),
+                        hintText: 'Email',
+                        border: OutlineInputBorder(),
+                        labelText: "Email"),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter some text';
@@ -126,7 +128,9 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                   child: TextFormField(
                     controller: nama_lengkap,
                     decoration: InputDecoration(
-                        hintText: 'Nama Pemohon', border: OutlineInputBorder()),
+                        hintText: 'Nama Pemohon',
+                        border: OutlineInputBorder(),
+                        labelText: "Nama Pemohon"),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter some text';
@@ -142,7 +146,8 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                     maxLines: 5,
                     decoration: InputDecoration(
                         hintText: 'Alamat Pemohon',
-                        border: OutlineInputBorder()),
+                        border: OutlineInputBorder(),
+                        labelText: "Alamat Pemohon"),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter some text';
@@ -157,7 +162,8 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                     controller: alamat_email,
                     decoration: InputDecoration(
                         hintText: 'Nomor Telp Pemohon',
-                        border: OutlineInputBorder()),
+                        border: OutlineInputBorder(),
+                        labelText: "Nomor Telp Pemohon"),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter some text';
@@ -172,7 +178,8 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                     controller: nomor_handphone,
                     decoration: InputDecoration(
                         hintText: 'Nama Perusahaan',
-                        border: OutlineInputBorder()),
+                        border: OutlineInputBorder(),
+                        labelText: "Nama Perusahaan"),
                     keyboardType: TextInputType.number,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -188,7 +195,8 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                     controller: konfirmasi_alamat_email,
                     decoration: InputDecoration(
                         hintText: 'Nama Perusahaan',
-                        border: OutlineInputBorder()),
+                        border: OutlineInputBorder(),
+                        labelText: "Nama Perusahaan"),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter some text';
@@ -204,7 +212,8 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                     maxLines: 5,
                     decoration: InputDecoration(
                         hintText: 'Alamat Perusahaan',
-                        border: OutlineInputBorder()),
+                        border: OutlineInputBorder(),
+                        labelText: "Alamat Perusahaan"),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter some text';
@@ -218,7 +227,9 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                   child: TextFormField(
                     controller: konfirmasi_alamat_email,
                     decoration: InputDecoration(
-                        hintText: 'NPWPD', border: OutlineInputBorder()),
+                        hintText: 'NPWPD',
+                        border: OutlineInputBorder(),
+                        labelText: "NPWPD"),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter some text';
@@ -240,7 +251,8 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                   child: TextFormField(
                     decoration: InputDecoration(
                         hintText: 'Masukkan Nama Jalan',
-                        border: OutlineInputBorder()),
+                        border: OutlineInputBorder(),
+                        labelText: "Nama Jalan"),
                     controller: username,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -255,7 +267,8 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                   child: TextFormField(
                     decoration: InputDecoration(
                         hintText: 'Masukkan Nomor Jalan',
-                        border: OutlineInputBorder()),
+                        border: OutlineInputBorder(),
+                        labelText: "Nomor Jalan"),
                     controller: password,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -270,7 +283,8 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                   child: TextFormField(
                     decoration: InputDecoration(
                         hintText: 'Masukkan Blok',
-                        border: OutlineInputBorder()),
+                        border: OutlineInputBorder(),
+                        labelText: "Blok"),
                     controller: password,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -284,7 +298,9 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                   padding: EdgeInsets.all(10),
                   child: TextFormField(
                     decoration: InputDecoration(
-                        hintText: 'Masukkan RT', border: OutlineInputBorder()),
+                        hintText: 'Masukkan RT',
+                        border: OutlineInputBorder(),
+                        labelText: "RT"),
                     controller: password,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -298,7 +314,9 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                   padding: EdgeInsets.all(10),
                   child: TextFormField(
                     decoration: InputDecoration(
-                        hintText: 'Masukkan RW', border: OutlineInputBorder()),
+                        hintText: 'Masukkan RW',
+                        border: OutlineInputBorder(),
+                        labelText: "RW"),
                     controller: password,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -315,7 +333,8 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                     maxLines: 5,
                     decoration: InputDecoration(
                         hintText: 'Masukkan Detail Lokasi',
-                        border: OutlineInputBorder()),
+                        border: OutlineInputBorder(),
+                        labelText: "Detail Lokasi"),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter some text';
@@ -329,7 +348,8 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                   child: TextFormField(
                     decoration: InputDecoration(
                         hintText: 'Tahun Pendirian',
-                        border: OutlineInputBorder()),
+                        border: OutlineInputBorder(),
+                        labelText: "Tahun Pendirian"),
                     controller: password,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -343,7 +363,9 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                   padding: EdgeInsets.all(10),
                   child: TextFormField(
                     decoration: InputDecoration(
-                        hintText: 'Kecamatan', border: OutlineInputBorder()),
+                        hintText: 'Kecamatan',
+                        border: OutlineInputBorder(),
+                        labelText: "Kecamatan"),
                     controller: password,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -357,7 +379,9 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                   padding: EdgeInsets.all(10),
                   child: TextFormField(
                     decoration: InputDecoration(
-                        hintText: 'Kelurahan', border: OutlineInputBorder()),
+                        hintText: 'Kelurahan',
+                        border: OutlineInputBorder(),
+                        labelText: "Kelurahan"),
                     controller: password,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -380,7 +404,9 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                   child: TextFormField(
                     initialValue: tahun,
                     decoration: InputDecoration(
-                        hintText: 'Tahun Pajak', border: OutlineInputBorder()),
+                        hintText: 'Tahun Pajak',
+                        border: OutlineInputBorder(),
+                        labelText: "Tahun Pajak"),
                     enabled: false,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -396,7 +422,8 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                     initialValue: tanggalBulanTahun,
                     decoration: InputDecoration(
                         hintText: 'Tanggal Permohonan',
-                        border: OutlineInputBorder()),
+                        border: OutlineInputBorder(),
+                        labelText: "Tanggal Permohonan"),
                     enabled: false,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -416,9 +443,7 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                       ),
                       value: selectedValueJenisReklame,
                       onChanged: (String? newValue) {
-                        setState(() {
-                          selectedValueJenisReklame = newValue!;
-                        });
+                        selectedValueJenisReklame = newValue!;
                       },
                       items: jenisReklameItems),
                 ),
@@ -432,9 +457,7 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                       ),
                       value: selectedValueJenisProduk,
                       onChanged: (String? newValue) {
-                        setState(() {
-                          selectedValueJenisProduk = newValue!;
-                        });
+                        selectedValueJenisProduk = newValue!;
                       },
                       items: jenisProdukItems),
                 ),
@@ -448,9 +471,7 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                       ),
                       value: selectedValueLokasiPenempatan,
                       onChanged: (String? newValue) {
-                        setState(() {
-                          selectedValueLokasiPenempatan = newValue!;
-                        });
+                        selectedValueLokasiPenempatan = newValue!;
                       },
                       items: lokasiPenempatanItems),
                 ),
@@ -464,9 +485,7 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                         ),
                         value: selectedValueStatusTanah,
                         onChanged: (String? newValue) {
-                          setState(() {
-                            selectedValueStatusTanah = newValue!;
-                          });
+                          selectedValueStatusTanah = newValue!;
                         },
                         items: statusTanahItems)),
                 Container(
@@ -479,9 +498,7 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                         ),
                         value: selectedValueLetakReklame,
                         onChanged: (String? newValue) {
-                          setState(() {
-                            selectedValueLetakReklame = newValue!;
-                          });
+                          selectedValueLetakReklame = newValue!;
                         },
                         items: letakReklameItems)),
                 Container(

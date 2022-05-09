@@ -34,6 +34,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   final username = TextEditingController();
   final password = TextEditingController();
   final konfirmasiPassword = TextEditingController();
+  final namaPerusahaan = TextEditingController();
+  final jabatanPerusahaan = TextEditingController();
+  final alamatPerusahaan = TextEditingController();
+  final nomorTelpPerusahaan = TextEditingController();
+  final NPWPD = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
 
   void submit() async {
@@ -42,8 +48,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       'nama': nama_lengkap.text,
       'alamat': alamat.text,
       'noHP': nomor_handphone.text,
-      'username': username.text,
+      'jabatan': jabatanPerusahaan.text,
+      'nama_perusahaan': namaPerusahaan.text,
+      'alamat_perusahaan': alamatPerusahaan.text,
+      'no_telp_perusahaan': nomorTelpPerusahaan.text,
       'email': konfirmasi_alamat_email.text,
+      'npwpd': NPWPD.text,
+      'username': username.text,
       'password': konfirmasiPassword.text
     });
 
@@ -95,7 +106,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 controller: nama_lengkap,
                 decoration: InputDecoration(
                     hintText: 'Masukkan Nama Lengkap',
-                    border: OutlineInputBorder()),
+                    border: OutlineInputBorder(),
+                    labelText: 'Nama Lengkap'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
@@ -110,7 +122,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 controller: alamat,
                 maxLines: 5,
                 decoration: InputDecoration(
-                    hintText: 'Masukkan Alamat', border: OutlineInputBorder()),
+                    hintText: 'Masukkan Alamat',
+                    border: OutlineInputBorder(),
+                    labelText: 'Alamat'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
@@ -125,7 +139,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 controller: nomor_handphone,
                 decoration: InputDecoration(
                     hintText: 'Masukkan Nomor Handphone',
-                    border: OutlineInputBorder()),
+                    border: OutlineInputBorder(),
+                    labelText: 'Nomor Handphone'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -141,7 +156,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 controller: alamat_email,
                 decoration: InputDecoration(
                     hintText: 'Masukkan Alamat Email',
-                    border: OutlineInputBorder()),
+                    border: OutlineInputBorder(),
+                    labelText: 'Email'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
@@ -156,7 +172,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 controller: konfirmasi_alamat_email,
                 decoration: InputDecoration(
                     hintText: 'Konfirmasi Alamat Email',
-                    border: OutlineInputBorder()),
+                    border: OutlineInputBorder(),
+                    labelText: 'Konfirmasi Email'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
@@ -177,7 +194,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               child: TextFormField(
                 decoration: InputDecoration(
                     hintText: 'Masukkan Username',
-                    border: OutlineInputBorder()),
+                    border: OutlineInputBorder(),
+                    labelText: 'Username'),
                 controller: username,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -193,13 +211,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 controller: password,
                 obscureText: _isHidden1,
                 decoration: InputDecoration(
-                  hintText: 'Password',
-                  border: OutlineInputBorder(),
-                  suffix: InkWell(
-                    onTap: _togglePasswordView,
-                    child: Icon(Icons.visibility),
-                  ),
-                ),
+                    hintText: 'Password',
+                    border: OutlineInputBorder(),
+                    suffix: InkWell(
+                      onTap: _togglePasswordView,
+                      child: Icon(Icons.visibility),
+                    ),
+                    labelText: 'Password'),
               ),
             ),
             Container(
@@ -208,13 +226,70 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 controller: konfirmasiPassword,
                 obscureText: _isHidden1,
                 decoration: InputDecoration(
-                  hintText: 'Halo',
-                  border: OutlineInputBorder(),
-                  suffix: InkWell(
-                    onTap: _togglePasswordView,
-                    child: Icon(Icons.visibility),
-                  ),
-                ),
+                    hintText: 'Konfirmasi Password',
+                    border: OutlineInputBorder(),
+                    suffix: InkWell(
+                      onTap: _togglePasswordView,
+                      child: Icon(Icons.visibility),
+                    ),
+                    labelText: 'Konfirmasi Password'),
+              ),
+            ),
+            Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  'Data Perusahaan',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                )),
+            Container(
+              padding: EdgeInsets.all(10),
+              child: TextFormField(
+                controller: namaPerusahaan,
+                decoration: InputDecoration(
+                    hintText: 'Nama Perushaan',
+                    border: OutlineInputBorder(),
+                    labelText: 'Nama Perusahaan'),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.all(10),
+              child: TextFormField(
+                controller: jabatanPerusahaan,
+                decoration: InputDecoration(
+                    hintText: 'Jabatan',
+                    border: OutlineInputBorder(),
+                    labelText: 'Jabatan'),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.all(10),
+              child: TextFormField(
+                controller: alamatPerusahaan,
+                decoration: InputDecoration(
+                    hintText: 'Alamat Perusahaan',
+                    border: OutlineInputBorder(),
+                    labelText: 'Alamat Perusahaan'),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.all(10),
+              child: TextFormField(
+                controller: nomorTelpPerusahaan,
+                decoration: InputDecoration(
+                    hintText: 'No Telp Perusahaan',
+                    border: OutlineInputBorder(),
+                    labelText: "No Telp Perusahaan"),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.all(10),
+              child: TextFormField(
+                controller: NPWPD,
+                decoration: InputDecoration(
+                    hintText: 'NPWPD',
+                    border: OutlineInputBorder(),
+                    labelText: "NPWPD"),
               ),
             ),
             Container(
