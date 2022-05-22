@@ -5,14 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
 
-class Maps extends StatefulWidget {
-  const Maps({Key? key}) : super(key: key);
+class FindCoordinate extends StatefulWidget {
+  const FindCoordinate({Key? key}) : super(key: key);
 
   @override
-  State<Maps> createState() => _Maps();
+  State<FindCoordinate> createState() => _FindCoordinateState();
 }
 
-class _Maps extends State<Maps> {
+class _FindCoordinateState extends State<FindCoordinate> {
   String _txtCari = "";
 
   LatLng marker = LatLng(0, 0);
@@ -60,7 +60,11 @@ class _Maps extends State<Maps> {
                                         child: const Text('Cancel'),
                                       ),
                                       TextButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.pop(context, '');
+                                          Navigator.pop(
+                                              context, marker.toString());
+                                        },
                                         child: const Text('Yakin'),
                                       ),
                                     ],

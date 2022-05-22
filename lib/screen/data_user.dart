@@ -14,8 +14,24 @@ class DataUser extends StatefulWidget {
 }
 
 class _DataUserState extends State<DataUser> {
-  Profile? profiles;
+  static Profile? profiles;
 
+  final nama_lengkap = TextEditingController(text: profiles?.nama);
+  final alamat = TextEditingController(text: profiles?.alamat);
+  final nomor_handphone =
+      TextEditingController(text: profiles?.no_hp.toString());
+  final alamat_email = TextEditingController(text: profiles?.email);
+
+  final username = TextEditingController(text: profiles?.username);
+  final password = TextEditingController(text: profiles?.password);
+  final namaPerusahaan = TextEditingController(text: profiles?.nama_perusahaan);
+
+  final jabatanPerusahaan = TextEditingController(text: profiles?.jabatan);
+  final alamatPerusahaan =
+      TextEditingController(text: profiles?.alamat_perusahaan);
+  final nomorTelpPerusahaan =
+      TextEditingController(text: profiles?.no_telp_perusahaan.toString());
+  final NPWPD = TextEditingController(text: profiles?.npwpd);
   @override
   void initState() {
     super.initState();
@@ -26,7 +42,8 @@ class _DataUserState extends State<DataUser> {
     fetchData().then((value) {
       Map json = jsonDecode(value);
       profiles = Profile.fromJson(json['data'][0]);
-      print(json);
+      print(json['data'][0]);
+
       setState(() {});
     });
   }
@@ -37,6 +54,35 @@ class _DataUserState extends State<DataUser> {
         body: {'username': active_username});
     if (response.statusCode == 200) {
       return response.body;
+    } else {
+      throw Exception('Failed to read API');
+    }
+  }
+
+  void submit() async {
+    print(nama_lengkap.text);
+    final response = await http
+        .put(Uri.parse("http://10.0.2.2:8000/api/update_user"), body: {
+      'nama_lengkap': nama_lengkap.text,
+      'no_hp': nomor_handphone.text,
+      'alamat': alamat.text,
+      'nama_perusahaan': namaPerusahaan.text,
+      'jabatan': jabatanPerusahaan.text,
+      'alamat_perusahaan': alamatPerusahaan.text,
+      'no_telp_perusahaan': nomorTelpPerusahaan.text,
+      'npwpd': nomor_handphone.text,
+      'username': active_username
+    });
+
+    if (response.statusCode == 200) {
+      Map json = jsonDecode(response.body);
+      if (json['result'] == 'success') {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Update Data Berhasil')));
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Silahkan Ubah Data')));
+      }
     } else {
       throw Exception('Failed to read API');
     }
@@ -69,41 +115,42 @@ class _DataUserState extends State<DataUser> {
           Container(
             padding: EdgeInsets.all(10),
             child: TextFormField(
+              enabled: false,
               initialValue: profiles?.username,
               decoration: InputDecoration(
-                  hintText: 'Username', border: OutlineInputBorder()),
+                  labelText: 'Username',
+                  hintText: 'Username',
+                  border: OutlineInputBorder()),
             ),
           ),
           Container(
             padding: EdgeInsets.all(10),
             child: TextFormField(
-              initialValue: profiles!.nama,
+              controller: nama_lengkap,
               decoration: InputDecoration(
-                  hintText: "Nama lengkap", border: OutlineInputBorder()),
+                  labelText: 'Nama Lengkap',
+                  hintText: "Nama lengkap",
+                  border: OutlineInputBorder()),
             ),
           ),
           Container(
             padding: EdgeInsets.all(10),
             child: TextFormField(
-              initialValue: profiles!.no_telp.toString(),
+              controller: nomor_handphone,
               decoration: InputDecoration(
-                  hintText: 'No Telp', border: OutlineInputBorder()),
+                  labelText: 'No HP',
+                  hintText: 'No HP',
+                  border: OutlineInputBorder()),
             ),
           ),
           Container(
             padding: EdgeInsets.all(10),
             child: TextFormField(
-              initialValue: profiles!.no_hp.toString(),
+              controller: alamat,
               decoration: InputDecoration(
-                  hintText: 'No HP', border: OutlineInputBorder()),
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(10),
-            child: TextFormField(
-              initialValue: profiles!.alamat,
-              decoration: InputDecoration(
-                  hintText: 'Alamat', border: OutlineInputBorder()),
+                  labelText: 'Alamat',
+                  hintText: 'Alamat',
+                  border: OutlineInputBorder()),
             ),
           ),
           Container(
@@ -116,41 +163,51 @@ class _DataUserState extends State<DataUser> {
           Container(
             padding: EdgeInsets.all(10),
             child: TextFormField(
-              initialValue: profiles!.nama_perusahaan,
+              controller: namaPerusahaan,
               decoration: InputDecoration(
-                  hintText: 'Nama Perushaan', border: OutlineInputBorder()),
+                  labelText: 'Nama Perusahaan',
+                  hintText: 'Nama Perusahaan',
+                  border: OutlineInputBorder()),
             ),
           ),
           Container(
             padding: EdgeInsets.all(10),
             child: TextFormField(
-              initialValue: profiles!.jabatan,
+              controller: jabatanPerusahaan,
               decoration: InputDecoration(
-                  hintText: 'Jabatan', border: OutlineInputBorder()),
+                  labelText: "Jabatan",
+                  hintText: 'Jabatan',
+                  border: OutlineInputBorder()),
             ),
           ),
           Container(
             padding: EdgeInsets.all(10),
             child: TextFormField(
-              initialValue: profiles!.alamat_perusahaan,
+              controller: alamatPerusahaan,
               decoration: InputDecoration(
-                  hintText: 'Alamat Perusahaan', border: OutlineInputBorder()),
+                  labelText: "Alamat Perusahaan",
+                  hintText: 'Alamat Perusahaan',
+                  border: OutlineInputBorder()),
             ),
           ),
           Container(
             padding: EdgeInsets.all(10),
             child: TextFormField(
-              initialValue: profiles!.no_telp_perusahaan.toString(),
+              controller: nomorTelpPerusahaan,
               decoration: InputDecoration(
-                  hintText: 'No Telp Perusahaan', border: OutlineInputBorder()),
+                  labelText: "No Telp Perusahaan",
+                  hintText: 'No Telp Perusahaan',
+                  border: OutlineInputBorder()),
             ),
           ),
           Container(
             padding: EdgeInsets.all(10),
             child: TextFormField(
-              initialValue: profiles!.npwpd.toString(),
+              controller: NPWPD,
               decoration: InputDecoration(
-                  hintText: 'NPWPD', border: OutlineInputBorder()),
+                  labelText: "NPWPD",
+                  hintText: 'NPWPD',
+                  border: OutlineInputBorder()),
             ),
           ),
           Container(
@@ -158,7 +215,9 @@ class _DataUserState extends State<DataUser> {
               padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
               child: ElevatedButton(
                 child: Text('Simpan Perubahan'),
-                onPressed: () {},
+                onPressed: () {
+                  submit();
+                },
               )),
         ],
       ),

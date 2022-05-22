@@ -1,3 +1,4 @@
+import 'package:ereklame_pemohon/screen/cari_koordinat.dart';
 import 'package:ereklame_pemohon/screen/cek_status.dart';
 import 'package:ereklame_pemohon/screen/data_login.dart';
 import 'package:ereklame_pemohon/screen/data_user.dart';
@@ -11,6 +12,7 @@ import 'package:ereklame_pemohon/screen/permohonan_baru.dart';
 import 'package:ereklame_pemohon/screen/profile.dart';
 import 'package:ereklame_pemohon/screen/register.dart';
 import 'package:ereklame_pemohon/screen/reklame.dart';
+import 'package:ereklame_pemohon/screen/upload.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -67,6 +69,7 @@ class MyApp extends StatelessWidget {
         '/cek-status': (context) => CekStatus(),
         '/panduan': (context) => Panduan(),
         '/permohonan': (context) => PermohonanBaru(),
+        '/cari-koordinat': (context) => FindCoordinate(),
       },
     );
   }

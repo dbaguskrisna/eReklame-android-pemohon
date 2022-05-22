@@ -7,15 +7,20 @@ class Panduan extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("Persyaratan"),
+      ),
       body: ListView(
         children: <Widget>[
-          Center(
-              child: Text(
-            'PERSYARATAN',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            textAlign: TextAlign.center,
-          )),
+          Container(
+            padding: EdgeInsets.fromLTRB(10, 25, 10, 10),
+            child: Center(
+                child: Text(
+              'PERSYARATAN',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              textAlign: TextAlign.center,
+            )),
+          ),
           Container(
             padding: EdgeInsets.all(10),
             child: Text("1. Fotokopi Kartu Tanda Penduduk"),

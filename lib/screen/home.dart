@@ -39,7 +39,7 @@ class Home extends StatelessWidget {
               )
             ],
           ),
-          Row(
+          Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               GestureDetector(
@@ -47,21 +47,22 @@ class Home extends StatelessWidget {
                   Navigator.pushNamed(context, '/permohonan');
                 },
                 child: Container(
-                  child: Column(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
                         'assets/image/tambah.png',
+                        height: 100,
                       ),
                       Text("Permohonan Lokasi \nReklame Baru",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
-                              fontSize: 12))
+                              fontSize: 20))
                     ],
                   ),
-                  width: 150,
+                  width: double.infinity,
                   height: 150,
                   margin: EdgeInsets.fromLTRB(25, 0, 20, 0),
                   decoration: BoxDecoration(
@@ -70,27 +71,55 @@ class Home extends StatelessWidget {
                 ),
               ),
               GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/lihat-data');
+                  },
+                  child: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/image/search.png',
+                          height: 120,
+                        ),
+                        Text("Lihat Data Reklame",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                                fontSize: 20))
+                      ],
+                    ),
+                    width: double.infinity,
+                    height: 150,
+                    margin: EdgeInsets.fromLTRB(25, 10, 20, 0),
+                    decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                  )),
+              GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, '/lihat-data');
+                  Navigator.pushNamed(context, '/panduan');
                 },
                 child: Container(
-                  child: Column(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
-                        'assets/image/search.png',
+                        'assets/image/lihat.png',
+                        height: 120,
                       ),
-                      Text("Lihat Data \nReklame",
+                      Text("Persyaratan Pendirian \nReklame",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
-                              fontSize: 12))
+                              fontSize: 18))
                     ],
                   ),
-                  width: 150,
+                  width: double.infinity,
                   height: 150,
-                  margin: EdgeInsets.fromLTRB(25, 0, 20, 0),
+                  margin: EdgeInsets.fromLTRB(25, 10, 20, 0),
                   decoration: BoxDecoration(
                       color: Colors.blue,
                       borderRadius: BorderRadius.all(Radius.circular(15))),
@@ -98,64 +127,6 @@ class Home extends StatelessWidget {
               ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/panduan');
-                },
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.help_center,
-                        size: 80,
-                      ),
-                      Text(
-                        "Panduan \n Alur Peizinan & Persyaratan",
-                        textAlign: TextAlign.center,
-                      )
-                    ],
-                  ),
-                  width: 150,
-                  height: 150,
-                  margin: EdgeInsets.fromLTRB(25, 25, 20, 25),
-                  decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.all(Radius.circular(15))),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/cek-status');
-                },
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/image/lihat.png',
-                      ),
-                      Text("Cek Status \nReklame ",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                              fontSize: 12))
-                    ],
-                  ),
-                  width: 150,
-                  height: 150,
-                  margin: EdgeInsets.fromLTRB(25, 0, 20, 0),
-                  decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.all(Radius.circular(15))),
-                ),
-              ),
-            ],
-          )
         ],
       ),
     );

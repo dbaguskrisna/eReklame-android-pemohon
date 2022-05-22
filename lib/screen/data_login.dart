@@ -106,17 +106,17 @@ class _DataLoginState extends State<DataLogin> {
               Container(
                 padding: EdgeInsets.all(10),
                 child: TextFormField(
-                  obscureText: _isHidden1,
-                  initialValue: users!.password,
-                  decoration: InputDecoration(
-                    hintText: 'Password',
-                    border: OutlineInputBorder(),
-                    suffix: InkWell(
-                      onTap: _togglePasswordView,
-                      child: Icon(Icons.visibility),
+                    obscureText: _isHidden1,
+                    initialValue: users!.password,
+                    decoration: InputDecoration(
+                      hintText: 'Password',
+                      border: OutlineInputBorder(),
+                      suffix: InkWell(
+                        onTap: _togglePasswordView,
+                        child: Icon(Icons.visibility),
+                      ),
                     ),
-                  ),
-                ),
+                    readOnly: true),
               ),
               Container(
                   alignment: Alignment.centerLeft,

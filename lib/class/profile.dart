@@ -3,14 +3,13 @@ import 'dart:convert';
 class Profile {
   int id_user;
   String nama;
-  String? alamat;
-  int? no_telp;
-  int? no_hp;
-  String? jabatan;
-  String? nama_perusahaan;
-  String? alamat_perusahaan;
-  int? no_telp_perusahaan;
-  int? npwpd;
+  String alamat;
+  int no_hp;
+  String jabatan;
+  String nama_perusahaan;
+  String alamat_perusahaan;
+  int no_telp_perusahaan;
+  String npwpd;
   String email;
   String password;
   String username;
@@ -19,7 +18,6 @@ class Profile {
     required this.id_user,
     required this.nama,
     required this.alamat,
-    required this.no_telp,
     required this.no_hp,
     required this.jabatan,
     required this.nama_perusahaan,
@@ -30,12 +28,14 @@ class Profile {
     required this.password,
     required this.username,
   });
+
   factory Profile.fromJson(Map<String, dynamic> json) {
+    print(json['nama_perusahaan']);
+
     return Profile(
         id_user: json['iduser'],
         nama: json['nama'],
         alamat: json['alamat'],
-        no_telp: json['no_telp'],
         no_hp: json['no_hp'],
         jabatan: json['jabatan'],
         nama_perusahaan: json['nama_perusahaan'],

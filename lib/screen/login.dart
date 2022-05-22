@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 50,
               padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: ElevatedButton(
-                child: Text('Login haha'),
+                child: Text('Login'),
                 onPressed: () {
                   doLogin();
                 },
