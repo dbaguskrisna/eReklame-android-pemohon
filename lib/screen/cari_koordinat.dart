@@ -62,8 +62,7 @@ class _FindCoordinateState extends State<FindCoordinate> {
                                       TextButton(
                                         onPressed: () {
                                           Navigator.pop(context, '');
-                                          Navigator.pop(
-                                              context, marker.toString());
+                                          Navigator.pop(context, marker);
                                         },
                                         child: const Text('Yakin'),
                                       ),

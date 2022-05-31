@@ -85,7 +85,7 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _currentIndex = 0;
 
-  final List<Widget> _screens = [Home(), Maps(), Profile()];
+  final List<Widget> _screens = [Home(), MapsLocation(), Profile()];
 
   Widget bottomNavigation() {
     return BottomNavigationBar(

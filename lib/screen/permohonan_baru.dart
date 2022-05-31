@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+import 'package:latlong2/latlong.dart';
 
 import '../main.dart';
 
@@ -84,11 +85,11 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
   final teks = TextEditingController();
   final rt = TextEditingController();
   final rw = TextEditingController();
-  int no_formulir = 98;
+  int no_formulir = 887;
   int status_pengajuan = 0;
   int status = 0;
 
-  String coordinate = "";
+  late LatLng coordinate = LatLng(0, 0);
 
   void _navigateAndDisplaySelection(BuildContext context) async {
     final result = await Navigator.push(
@@ -100,7 +101,7 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
   }
 
   void submit() async {
-    print(coordinate);
+    print(coordinate.latitude);
     final response = await http
         .post(Uri.parse("http://10.0.2.2:8000/api/insert_reklame"), body: {
       'id_jenis_reklame': selectedValueJenisReklame,
@@ -126,7 +127,8 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
       'no_formulir': no_formulir.toString(),
       'status_pengajuan': status_pengajuan.toString(),
       'status': status.toString(),
-      'coordinate': coordinate
+      'latitude': coordinate.latitude.toString(),
+      'longtitude': coordinate.longitude.toString()
     });
 
     if (response.statusCode == 200) {
@@ -758,6 +760,7 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                         child: Text('Daftar Baru'),
                         onPressed: () {
                           submit();
+                          print(coordinate.toString());
                         })),
               ],
             )));

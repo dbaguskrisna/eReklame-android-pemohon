@@ -32,6 +32,7 @@ class _DataUserState extends State<DataUser> {
   final nomorTelpPerusahaan =
       TextEditingController(text: profiles?.no_telp_perusahaan.toString());
   final NPWPD = TextEditingController(text: profiles?.npwpd);
+  
   @override
   void initState() {
     super.initState();
