@@ -21,7 +21,6 @@ class _DataReklameState extends State<DataReklame> {
   @override
   void initState() {
     super.initState();
-
     bacaData();
   }
 
@@ -38,6 +37,52 @@ class _DataReklameState extends State<DataReklame> {
       }
       setState(() {});
     });
+  }
+
+  void ajukanPermohonan(int idReklame) async {
+    final response = await http.put(
+        Uri.parse("http://10.0.2.2:8000/api/update_status_reklame"),
+        body: {
+          'id_reklame': idReklame.toString(),
+        });
+
+    if (response.statusCode == 200) {
+      Map json = jsonDecode(response.body);
+      if (json['result'] == 'success') {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Sukses Mengajukan Permohonan')));
+        bacaData();
+        setState(() {});
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Gagal Mengajukan Permohonan')));
+      }
+    } else {
+      throw Exception('Failed to read API');
+    }
+  }
+
+  void deleteReklame(int idReklame) async {
+    print("id reklame" + idReklame.toString());
+    final response = await http
+        .post(Uri.parse("http://10.0.2.2:8000/api/delete_reklame"), body: {
+      'id_reklame': idReklame.toString(),
+    });
+
+    if (response.statusCode == 200) {
+      Map json = jsonDecode(response.body);
+      if (json['result'] == 'success') {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Sukses Menghapus Data Reklame')));
+        bacaData();
+        setState(() {});
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Gagal Menghapus Data Reklame')));
+      }
+    } else {
+      throw Exception('Failed to read API');
+    }
   }
 
   Future<String> fetchData() async {
@@ -68,6 +113,7 @@ class _DataReklameState extends State<DataReklame> {
   }
 
   Widget DaftarPopMovie(PopMovs) {
+    print(PopMovs.length);
     if (PopMovs != null) {
       return ListView.builder(
           itemCount: PopMovs.length,
@@ -96,6 +142,10 @@ class _DataReklameState extends State<DataReklame> {
                                               Reklames[index]
                                                   .no_formulir
                                                   .toString() +
+                                              "Id reklame" +
+                                              Reklames[index]
+                                                  .id_reklame
+                                                  .toString() +
                                               " ? "),
                                       actions: <Widget>[
                                         TextButton(
@@ -104,8 +154,10 @@ class _DataReklameState extends State<DataReklame> {
                                           child: const Text('Cancel'),
                                         ),
                                         TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context, 'OK'),
+                                          onPressed: () {
+                                            deleteReklame(
+                                                Reklames[index].id_reklame);
+                                          },
                                           child: const Text('OK'),
                                         ),
                                       ],
@@ -114,9 +166,8 @@ class _DataReklameState extends State<DataReklame> {
                           icon: Icon(Icons.delete, size: 20))
                     ],
                   ),
-                  subtitle: Text(
-                    'Status Pengajuan : ' + Reklames[index].status.toString(),
-                  ),
+                  subtitle: Text('Status Pengajuan : ' +
+                      statusPengajuan(Reklames[index].status_pengajuan)),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -141,8 +192,10 @@ class _DataReklameState extends State<DataReklame> {
                                       child: const Text('Cancel'),
                                     ),
                                     TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, 'OK'),
+                                      onPressed: () {
+                                        ajukanPermohonan(
+                                            Reklames[index].id_reklame);
+                                      },
                                       child: const Text('OK'),
                                     ),
                                   ],
@@ -170,6 +223,14 @@ class _DataReklameState extends State<DataReklame> {
           });
     } else {
       return CircularProgressIndicator();
+    }
+  }
+
+  String statusPengajuan(int statusPengajuan) {
+    if (statusPengajuan == 1) {
+      return "Sudah di ajukan";
+    } else {
+      return "belum di ajukan";
     }
   }
 }

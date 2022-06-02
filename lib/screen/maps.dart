@@ -71,7 +71,7 @@ class _MapsLocation extends State<MapsLocation> {
           builder: (ctx) => Container(
               child: IconButton(
                   icon: Icon(Icons.location_on),
-                  color: Colors.red,
+                  color: maps.status == 0 ? Colors.blue : Colors.red,
                   onPressed: () => showDialog<String>(
                       context: context,
                       builder: (BuildContext context) => AlertDialog(
