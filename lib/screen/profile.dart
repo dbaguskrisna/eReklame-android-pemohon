@@ -3,6 +3,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
 
+//firebase pacakge
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 class Profile extends StatelessWidget {
   Profile({Key? key}) : super(key: key);
 
@@ -68,6 +73,20 @@ class Profile extends StatelessWidget {
                 Navigator.pushNamed(context, '/data-user');
               },
               child: Text('Data Profile'),
+            )),
+        Container(
+            margin: EdgeInsets.fromLTRB(25, 0, 25, 10),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue, // background
+                onPrimary: Colors.white, // foreground
+                fixedSize: const Size(double.maxFinite, 50),
+              ),
+              onPressed: () async {
+                String? _token = await FirebaseMessaging.instance.getToken();
+                print(_token);
+              },
+              child: Text('CLICK HERE TO GET TOKEN'),
             )),
         Container(
             margin: EdgeInsets.fromLTRB(25, 0, 25, 10),

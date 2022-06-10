@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../main.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -16,9 +17,14 @@ class _LoginScreenState extends State<LoginScreen> {
   void doLogin() async {
     print(_user_id);
     print(_user_password);
-    final response = await http.post(
-        Uri.parse("http://10.0.2.2:8000/api/login"),
-        body: {'username': _user_id, 'password': _user_password});
+    String? _token = await FirebaseMessaging.instance.getToken();
+    print(_token);
+    final response = await http
+        .post(Uri.parse("http://10.0.2.2:8000/api/login"), body: {
+      'username': _user_id,
+      'password': _user_password,
+      'token': _token
+    });
     if (response.statusCode == 200) {
       Map json = jsonDecode(response.body);
       if (json['result'] == 'success') {

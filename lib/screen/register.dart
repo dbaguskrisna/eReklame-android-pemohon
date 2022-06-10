@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class Register extends StatelessWidget {
   const Register({Key? key}) : super(key: key);
@@ -43,6 +46,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   final _formKey = GlobalKey<FormState>();
 
   void submit() async {
+    String? _token = await FirebaseMessaging.instance.getToken();
+    print(_token);
     final response = await http
         .post(Uri.parse("http://10.0.2.2:8000/api/daftar_user"), body: {
       'nama': nama_lengkap.text,
@@ -55,7 +60,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       'email': konfirmasi_alamat_email.text,
       'npwpd': NPWPD.text,
       'username': username.text,
-      'password': konfirmasiPassword.text
+      'password': konfirmasiPassword.text,
+      'token': _token
     });
 
     if (response.statusCode == 200) {
