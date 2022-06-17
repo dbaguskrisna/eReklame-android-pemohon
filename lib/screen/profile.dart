@@ -82,20 +82,6 @@ class Profile extends StatelessWidget {
                 onPrimary: Colors.white, // foreground
                 fixedSize: const Size(double.maxFinite, 50),
               ),
-              onPressed: () async {
-                String? _token = await FirebaseMessaging.instance.getToken();
-                print(_token);
-              },
-              child: Text('CLICK HERE TO GET TOKEN'),
-            )),
-        Container(
-            margin: EdgeInsets.fromLTRB(25, 0, 25, 10),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.blue, // background
-                onPrimary: Colors.white, // foreground
-                fixedSize: const Size(double.maxFinite, 50),
-              ),
               onPressed: () {
                 doLogout();
               },

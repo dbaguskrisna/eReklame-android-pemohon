@@ -9,6 +9,7 @@ import 'package:ereklame_pemohon/screen/main_2.dart';
 import 'package:ereklame_pemohon/screen/maps.dart';
 import 'package:ereklame_pemohon/screen/panduan.dart';
 import 'package:ereklame_pemohon/screen/permohonan_baru.dart';
+import 'package:ereklame_pemohon/screen/perpanjangan_reklame.dart';
 import 'package:ereklame_pemohon/screen/profile.dart';
 import 'package:ereklame_pemohon/screen/register.dart';
 import 'package:ereklame_pemohon/screen/reklame.dart';
@@ -121,6 +122,7 @@ class MyApp extends StatelessWidget {
         '/panduan': (context) => Panduan(),
         '/permohonan': (context) => PermohonanBaru(),
         '/cari-koordinat': (context) => FindCoordinate(),
+        '/perpanjangan-reklame': (context) => PerpanjanganReklame()
       },
     );
   }

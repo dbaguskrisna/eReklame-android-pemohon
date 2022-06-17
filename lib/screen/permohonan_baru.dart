@@ -7,8 +7,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
-import 'package:latlong2/latlong.dart';
-
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../main.dart';
 
 class PermohonanBaru extends StatefulWidget {
@@ -24,7 +23,6 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
   @override
   void initState() {
     super.initState();
-    bacaData();
   }
 
   bacaData() {

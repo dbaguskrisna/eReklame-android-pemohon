@@ -98,6 +98,35 @@ class Home extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(15))),
                   )),
               GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/perpanjangan-reklame');
+                  },
+                  child: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/image/perpanjangan.png',
+                          height: 120,
+                        ),
+                        Text(
+                          "Perpanjangan Status\n Reklame",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                              fontSize: 19),
+                        )
+                      ],
+                    ),
+                    width: double.infinity,
+                    height: 150,
+                    margin: EdgeInsets.fromLTRB(25, 10, 20, 0),
+                    decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                  )),
+              GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(context, '/panduan');
                 },

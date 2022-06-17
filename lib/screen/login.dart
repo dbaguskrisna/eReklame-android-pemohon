@@ -33,6 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
         final prefs = await SharedPreferences.getInstance();
         prefs.setString("user_id", json['data'][0]['nama']);
         prefs.setString("username", json['data'][0]['username']);
+        prefs.setString("id_user", json['data'][0]['iduser']);
+
         main();
       } else {
         print("Error tidak dapat login");

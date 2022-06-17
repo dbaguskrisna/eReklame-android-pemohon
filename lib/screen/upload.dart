@@ -1,5 +1,12 @@
 import 'dart:convert';
+
+import 'package:ereklame_pemohon/main.dart';
 import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:path/path.dart';
+import 'package:http/http.dart' as http;
+
+import '../class/upload_files.dart';
 
 class UploadDocument extends StatefulWidget {
   final int reklame_id;
@@ -50,8 +57,98 @@ List<DropdownMenuItem<String>> get statusTanahItems {
 }
 
 class _UploadDocumentState extends State<UploadDocument> {
+  List<UploadFiles> listUpload = [];
+
+  late FilePickerResult result;
+  late PlatformFile file1;
+  selectFile() async {
+    FilePickerResult? result = await FilePicker.platform
+        .pickFiles(type: FileType.custom, allowedExtensions: ['jpg', 'pdf']);
+    if (result == null) return;
+    file1 = result.files.first;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    bacaData();
+  }
+
+  bacaData() {
+    listUpload.clear();
+    Future<String> data = fetchData();
+    data.then((value) {
+      Map json = jsonDecode(value);
+      print(json['data']);
+      for (var mov in json['data']) {
+        UploadFiles pm = UploadFiles.fromJson(mov);
+        listUpload.add(pm);
+      }
+      setState(() {});
+    });
+  }
+
+  Future<String> fetchData() async {
+    final response = await http.post(
+        Uri.parse("http://10.0.2.2:8000/api/read_upload_reklame"),
+        body: {'id_reklame': widget.reklame_id.toString()});
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to read API');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    void submit() async {
+      var request = http.MultipartRequest(
+          'POST', Uri.parse('http://10.0.2.2:8000/api/upload_reklame'));
+      request.files.add(
+          await http.MultipartFile.fromPath('file', file1.path.toString()));
+      print(active_username);
+      request.fields.addAll({
+        'username': active_username,
+        'id_reklame': widget.reklame_id.toString(),
+        'id_berkas': selectedValueStatusTanah
+      });
+
+      var res = await request.send();
+      var responseJSON = await http.Response.fromStream(res);
+      print(res.statusCode);
+      if (res.statusCode == 200) {
+        Map json = jsonDecode(responseJSON.body);
+        if (json['result'] == 'success') {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('Sukses Mengupload File')));
+          setState(() {
+            bacaData();
+          });
+        }
+      } else {
+        throw Exception('Failed to read API');
+      }
+    }
+
+    void deleteBerkas(int id_upload) async {
+      final response = await http.post(
+          Uri.parse("http://10.0.2.2:8000/api/delete_berkas"),
+          body: {'id_upload': id_upload.toString()});
+
+      if (response.statusCode == 200) {
+        Map json = jsonDecode(response.body);
+        if (json['result'] == 'success') {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('Sukses Menhapus Berkas')));
+          setState(() {
+            bacaData();
+          });
+        }
+      } else {
+        throw Exception('Failed to read API');
+      }
+    }
+
     return Scaffold(
         appBar: AppBar(
           title: Text("Upload Documment"),
@@ -84,50 +181,67 @@ class _UploadDocumentState extends State<UploadDocument> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ElevatedButton(onPressed: () {}, child: Text("Pilih berkas")),
-                  ElevatedButton(onPressed: () {}, child: Text("Upload Berkas"))
+                  ElevatedButton(
+                      onPressed: () {
+                        selectFile();
+                      },
+                      child: Text("Pilih berkas")),
+                  ElevatedButton(
+                      onPressed: () {
+                        submit();
+                      },
+                      child: Text("Upload Berkas"))
                 ],
               ),
             ),
-            Container(
+            Expanded(
+              child: SingleChildScrollView(
                 child: DataTable(
-              columns: [
-                DataColumn(
-                  label: Text('TIPE BERKAS'),
-                ),
-                DataColumn(
-                  label: Text('ACTION'),
-                ),
-              ],
-              rows: [
-                DataRow(cells: [
-                  DataCell(Text("aaaaaaaaa")),
-                  DataCell(IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          title: const Text('Peringatan'),
-                          content: const Text(
-                              'Apakah Yakin Akan Menghapus Berkas ?'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, 'Cancel'),
-                              child: const Text('Cancel'),
+                  columns: [
+                    DataColumn(
+                      label: Text('TIPE BERKAS'),
+                    ),
+                    DataColumn(
+                      label: Text('ACTION'),
+                    ),
+                  ],
+                  rows: List.generate(listUpload.length, (index) {
+                    String nama_berkas = listUpload[index].jenis_berkas;
+
+                    return DataRow(cells: [
+                      DataCell(Text(nama_berkas)),
+                      DataCell(IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () {
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text('Peringatan'),
+                              content: Text(
+                                  'Apakah Yakin Akan Menghapus Berkas ?' +
+                                      listUpload[index].id_upload.toString()),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(context, 'Cancel'),
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    deleteBerkas(listUpload[index].id_upload);
+                                  },
+                                  child: const Text('OK'),
+                                ),
+                              ],
                             ),
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, 'OK'),
-                              child: const Text('OK'),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ))
-                ])
-              ],
-            ))
+                          );
+                        },
+                      ))
+                    ]);
+                  }),
+                ),
+              ),
+            ),
           ],
         ));
   }
