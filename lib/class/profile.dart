@@ -31,7 +31,6 @@ class Profile {
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     print(json['nama_perusahaan']);
-
     return Profile(
         id_user: json['iduser'],
         nama: json['nama'],

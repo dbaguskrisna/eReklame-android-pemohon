@@ -4,6 +4,7 @@ import 'package:ereklame_pemohon/class/user.dart';
 import 'package:ereklame_pemohon/main.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:crypto/crypto.dart';
 
 class DataLogin extends StatefulWidget {
   const DataLogin({Key? key}) : super(key: key);
@@ -48,9 +49,12 @@ class _DataLoginState extends State<DataLogin> {
   }
 
   void submit() async {
+    var salt = 'eReklame';
+    var bytes1 = utf8.encode(salt + password.text); // data being hashed
+    var digest1 = sha256.convert(bytes1); // Hashing Process
     final response = await http
         .put(Uri.parse("http://10.0.2.2:8000/api/update_password"), body: {
-      'password': password.text,
+      'password': digest1.toString(),
       'username': active_username,
     });
 
@@ -81,7 +85,9 @@ class _DataLoginState extends State<DataLogin> {
     return Form(
         key: _formKey,
         child: Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            title: Text('Data Login'),
+          ),
           body: ListView(
             children: [
               Container(
@@ -100,24 +106,11 @@ class _DataLoginState extends State<DataLogin> {
                 child: TextFormField(
                   initialValue: users!.username,
                   decoration: InputDecoration(
-                      hintText: 'Username', border: OutlineInputBorder()),
+                      hintText: 'Username',
+                      border: OutlineInputBorder(),
+                      label: Text('Username')),
                   readOnly: true,
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                child: TextFormField(
-                    obscureText: _isHidden1,
-                    initialValue: users!.password,
-                    decoration: InputDecoration(
-                      hintText: 'Password',
-                      border: OutlineInputBorder(),
-                      suffix: InkWell(
-                        onTap: _togglePasswordView,
-                        child: Icon(Icons.visibility),
-                      ),
-                    ),
-                    readOnly: true),
               ),
               Container(
                   alignment: Alignment.centerLeft,
@@ -131,13 +124,13 @@ class _DataLoginState extends State<DataLogin> {
                 child: TextFormField(
                   obscureText: _isHidden2,
                   decoration: InputDecoration(
-                    hintText: 'New Password',
-                    border: OutlineInputBorder(),
-                    suffix: InkWell(
-                      onTap: _togglePasswordView,
-                      child: Icon(Icons.visibility),
-                    ),
-                  ),
+                      hintText: 'New Password',
+                      border: OutlineInputBorder(),
+                      suffix: InkWell(
+                        onTap: _togglePasswordView,
+                        child: Icon(Icons.visibility),
+                      ),
+                      label: Text('New Password')),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter some text';
@@ -152,13 +145,13 @@ class _DataLoginState extends State<DataLogin> {
                 child: TextFormField(
                   obscureText: _isHidden3,
                   decoration: InputDecoration(
-                    hintText: 'Repeat new password',
-                    border: OutlineInputBorder(),
-                    suffix: InkWell(
-                      onTap: _togglePasswordView,
-                      child: Icon(Icons.visibility),
-                    ),
-                  ),
+                      hintText: 'Repeat new password',
+                      border: OutlineInputBorder(),
+                      suffix: InkWell(
+                        onTap: _togglePasswordView,
+                        child: Icon(Icons.visibility),
+                      ),
+                      label: Text('Repeat New Password')),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter some text';

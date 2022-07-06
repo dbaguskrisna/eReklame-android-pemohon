@@ -14,25 +14,36 @@ class DataUser extends StatefulWidget {
 }
 
 class _DataUserState extends State<DataUser> {
-  static Profile? profiles;
+  Profile? profiles;
 
-  final nama_lengkap = TextEditingController(text: profiles?.nama);
-  final alamat = TextEditingController(text: profiles?.alamat);
-  final nomor_handphone =
-      TextEditingController(text: profiles?.no_hp.toString());
-  final alamat_email = TextEditingController(text: profiles?.email);
+  String nama_lengkap = "";
+  String alamat = "";
+  String nomor_handphone = "";
+  String alamat_email = "";
+  String username = "";
+  String password = "";
+  String namaPerusahaan = "";
+  String jabatanPerusahaan = "";
+  String alamatPerusahaan = "";
+  String nomorTelpPerusahaan = "";
+  String NPWPD = "";
+  // final nama_lengkap = TextEditingController(text: profiles?.nama);
+  // final alamat = TextEditingController(text: profiles?.alamat);
+  // final nomor_handphone =
+  //     TextEditingController(text: profiles?.no_hp.toString());
+  // final alamat_email = TextEditingController(text: profiles?.email);
 
-  final username = TextEditingController(text: profiles?.username);
-  final password = TextEditingController(text: profiles?.password);
-  final namaPerusahaan = TextEditingController(text: profiles?.nama_perusahaan);
+  // final username = TextEditingController(text: profiles?.username);
+  // final password = TextEditingController(text: profiles?.password);
+  // final namaPerusahaan = TextEditingController(text: profiles?.nama_perusahaan);
 
-  final jabatanPerusahaan = TextEditingController(text: profiles?.jabatan);
-  final alamatPerusahaan =
-      TextEditingController(text: profiles?.alamat_perusahaan);
-  final nomorTelpPerusahaan =
-      TextEditingController(text: profiles?.no_telp_perusahaan.toString());
-  final NPWPD = TextEditingController(text: profiles?.npwpd);
-  
+  // final jabatanPerusahaan = TextEditingController(text: profiles?.jabatan);
+  // final alamatPerusahaan =
+  //     TextEditingController(text: profiles?.alamat_perusahaan);
+  // final nomorTelpPerusahaan =
+  //     TextEditingController(text: profiles?.no_telp_perusahaan.toString());
+  // final NPWPD = TextEditingController(text: profiles?.npwpd);
+
   @override
   void initState() {
     super.initState();
@@ -61,17 +72,16 @@ class _DataUserState extends State<DataUser> {
   }
 
   void submit() async {
-    print(nama_lengkap.text);
     final response = await http
         .put(Uri.parse("http://10.0.2.2:8000/api/update_user"), body: {
-      'nama_lengkap': nama_lengkap.text,
-      'no_hp': nomor_handphone.text,
-      'alamat': alamat.text,
-      'nama_perusahaan': namaPerusahaan.text,
-      'jabatan': jabatanPerusahaan.text,
-      'alamat_perusahaan': alamatPerusahaan.text,
-      'no_telp_perusahaan': nomorTelpPerusahaan.text,
-      'npwpd': nomor_handphone.text,
+      'nama_lengkap': nama_lengkap,
+      'no_hp': nomor_handphone,
+      'alamat': alamat,
+      'nama_perusahaan': namaPerusahaan,
+      'jabatan': jabatanPerusahaan,
+      'alamat_perusahaan': alamatPerusahaan,
+      'no_telp_perusahaan': nomorTelpPerusahaan,
+      'npwpd': nomor_handphone,
       'username': active_username
     });
 
@@ -92,7 +102,9 @@ class _DataUserState extends State<DataUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text('Data Profile'),
+      ),
       body: ListView(
         children: [
           Container(
@@ -117,7 +129,7 @@ class _DataUserState extends State<DataUser> {
             padding: EdgeInsets.all(10),
             child: TextFormField(
               enabled: false,
-              initialValue: profiles?.username,
+              initialValue: profiles!.username,
               decoration: InputDecoration(
                   labelText: 'Username',
                   hintText: 'Username',
@@ -127,31 +139,39 @@ class _DataUserState extends State<DataUser> {
           Container(
             padding: EdgeInsets.all(10),
             child: TextFormField(
-              controller: nama_lengkap,
-              decoration: InputDecoration(
-                  labelText: 'Nama Lengkap',
-                  hintText: "Nama lengkap",
-                  border: OutlineInputBorder()),
-            ),
+                initialValue: profiles!.nama,
+                decoration: InputDecoration(
+                    labelText: 'Nama Lengkap',
+                    hintText: "Nama lengkap",
+                    border: OutlineInputBorder()),
+                onChanged: (v) {
+                  nama_lengkap = v;
+                }),
           ),
           Container(
             padding: EdgeInsets.all(10),
             child: TextFormField(
-              controller: nomor_handphone,
+              initialValue: profiles!.no_hp.toString(),
               decoration: InputDecoration(
                   labelText: 'No HP',
                   hintText: 'No HP',
                   border: OutlineInputBorder()),
+              onChanged: (v) {
+                nomor_handphone = v;
+              },
             ),
           ),
           Container(
             padding: EdgeInsets.all(10),
             child: TextFormField(
-              controller: alamat,
+              initialValue: profiles!.alamat,
               decoration: InputDecoration(
                   labelText: 'Alamat',
                   hintText: 'Alamat',
                   border: OutlineInputBorder()),
+              onChanged: (v) {
+                alamat = v;
+              },
             ),
           ),
           Container(
@@ -164,51 +184,66 @@ class _DataUserState extends State<DataUser> {
           Container(
             padding: EdgeInsets.all(10),
             child: TextFormField(
-              controller: namaPerusahaan,
+              initialValue: profiles!.nama_perusahaan,
               decoration: InputDecoration(
                   labelText: 'Nama Perusahaan',
                   hintText: 'Nama Perusahaan',
                   border: OutlineInputBorder()),
+              onChanged: (v) {
+                namaPerusahaan = v;
+              },
             ),
           ),
           Container(
             padding: EdgeInsets.all(10),
             child: TextFormField(
-              controller: jabatanPerusahaan,
+              initialValue: profiles!.jabatan,
               decoration: InputDecoration(
                   labelText: "Jabatan",
                   hintText: 'Jabatan',
                   border: OutlineInputBorder()),
+              onChanged: (v) {
+                jabatanPerusahaan = v;
+              },
             ),
           ),
           Container(
             padding: EdgeInsets.all(10),
             child: TextFormField(
-              controller: alamatPerusahaan,
+              initialValue: profiles!.alamat_perusahaan,
               decoration: InputDecoration(
                   labelText: "Alamat Perusahaan",
                   hintText: 'Alamat Perusahaan',
                   border: OutlineInputBorder()),
+              onChanged: (v) {
+                alamatPerusahaan = v;
+              },
             ),
           ),
           Container(
             padding: EdgeInsets.all(10),
             child: TextFormField(
-              controller: nomorTelpPerusahaan,
+              initialValue: profiles!.no_telp_perusahaan.toString(),
               decoration: InputDecoration(
                   labelText: "No Telp Perusahaan",
                   hintText: 'No Telp Perusahaan',
                   border: OutlineInputBorder()),
+              onChanged: (v) {
+                nomorTelpPerusahaan = v;
+              },
             ),
           ),
           Container(
             padding: EdgeInsets.all(10),
             child: TextFormField(
-              controller: NPWPD,
+              initialValue: profiles!.npwpd,
               decoration: InputDecoration(
                   labelText: "NPWPD",
                   hintText: 'NPWPD',
                   border: OutlineInputBorder()),
+              onChanged: (v) {
+                NPWPD = v;
+              },
             ),
           ),
           Container(

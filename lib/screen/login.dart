@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:crypto/crypto.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -14,42 +15,70 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  void doLogin() async {
-    print(_user_id);
-    print(_user_password);
-    String? _token = await FirebaseMessaging.instance.getToken();
-    print(_token);
-    final response = await http
-        .post(Uri.parse("http://10.0.2.2:8000/api/login"), body: {
-      'username': _user_id,
-      'password': _user_password,
-      'token': _token
-    });
-    if (response.statusCode == 200) {
-      Map json = jsonDecode(response.body);
-      if (json['result'] == 'success') {
-        print(json['data'][0]['nama']);
-        print(json['data'][0]['username']);
-        final prefs = await SharedPreferences.getInstance();
-        prefs.setString("user_id", json['data'][0]['nama']);
-        prefs.setString("username", json['data'][0]['username']);
-        prefs.setString("id_user", json['data'][0]['iduser']);
-
-        main();
-      } else {
-        print("Error tidak dapat login");
-      }
-    } else {
-      throw Exception('Failed to read API');
-    }
-  }
-
   String _user_id = "";
   String _user_password = "";
   String error_login = "";
 
   @override
   Widget build(BuildContext context) {
+    Future<void> _showMyDialog() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('AlertDialog Title'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: const <Widget>[
+                  Text('This is a demo alert dialog.'),
+                  Text('Would you like to approve of this message?'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Approve'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    void doLogin() async {
+      var salt = 'eReklame';
+      var bytes1 = utf8.encode(salt + _user_password); // data being hashed
+      var digest1 = sha256.convert(bytes1); // Hashing Process
+      print(digest1.toString());
+      String? _token = await FirebaseMessaging.instance.getToken();
+      print(_token);
+      final response = await http
+          .post(Uri.parse("http://10.0.2.2:8000/api/login"), body: {
+        'username': _user_id,
+        'password': digest1.toString(),
+        'token': _token
+      });
+      if (response.statusCode == 200) {
+        Map json = jsonDecode(response.body);
+        if (json['result'] == 'success') {
+          print(json['data'][0]['nama']);
+          print(json['data'][0]['username']);
+          final prefs = await SharedPreferences.getInstance();
+          prefs.setString("user_id", json['data'][0]['nama']);
+          prefs.setString("username", json['data'][0]['username']);
+          main();
+        } else {
+          _showMyDialog();
+        }
+      } else {
+        throw Exception('Failed to read API');
+      }
+    }
+
     return MaterialApp(
         home: Scaffold(
       body: ListView(

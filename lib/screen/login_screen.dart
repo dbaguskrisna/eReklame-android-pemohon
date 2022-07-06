@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../main.dart';
+import 'package:crypto/crypto.dart';
 
 class Login extends StatelessWidget {
   Login({Key? key}) : super(key: key);
@@ -11,13 +12,17 @@ class Login extends StatelessWidget {
   String _user_id = "";
   String _user_password = "";
   String error_login = "";
+  String hashPassword = "";
 
   void doLogin() async {
-    print(_user_id);
-    print(_user_password);
+    var salt = 'eReklame';
+    var bytes1 = utf8.encode(salt + _user_password); // data being hashed
+    var digest1 = sha256.convert(bytes1); // Hashing Process
+    print("Digest as bytes: ${digest1.bytes}");
+    print("Digest as hex string: $digest1");
     final response = await http.post(
         Uri.parse("http://10.0.2.2:8000/api/login"),
-        body: {'username': _user_id, 'password': _user_password});
+        body: {'username': _user_id, 'password': digest1});
     if (response.statusCode == 200) {
       Map json = jsonDecode(response.body);
       if (json['result'] == 'success') {

@@ -19,26 +19,27 @@ class PermohonanBaru extends StatefulWidget {
 
 class _PermohonanBaruState extends State<PermohonanBaru> {
   static Profile? profiles;
-
+  int no_formulir = 0;
   @override
   void initState() {
     super.initState();
+    bacaData();
   }
 
   bacaData() {
     fetchData().then((value) {
       Map json = jsonDecode(value);
-      profiles = Profile.fromJson(json['data'][0]);
-      print(json['data'][0]);
-
+      print(json['data'][0]['no_formulir']);
+      String a = json['data'][0]['no_formulir'];
+      String aStr = a.replaceAll(new RegExp(r'[^0-9]'), '');
+      no_formulir = int.parse(aStr) + 1;
       setState(() {});
     });
   }
 
   Future<String> fetchData() async {
-    final response = await http.post(
-        Uri.parse("http://10.0.2.2:8000/api/read_user"),
-        body: {'username': active_username});
+    final response =
+        await http.post(Uri.parse("http://10.0.2.2:8000/api/get_last_form"));
     if (response.statusCode == 200) {
       return response.body;
     } else {
@@ -83,7 +84,7 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
   final teks = TextEditingController();
   final rt = TextEditingController();
   final rw = TextEditingController();
-  int no_formulir = 887;
+
   int status_pengajuan = 0;
   int status = 0;
 
@@ -100,6 +101,8 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
 
   void submit() async {
     print(coordinate.latitude);
+    print(selectedValueJenisReklame);
+    print(profiles?.id_user.toString());
     final response = await http
         .post(Uri.parse("http://10.0.2.2:8000/api/insert_reklame"), body: {
       'id_jenis_reklame': selectedValueJenisReklame,
@@ -122,7 +125,7 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
       'luas_reklame': luasReklame.text,
       'tinggi_reklame': tinggiReklame.text,
       'teks': teks.text,
-      'no_formulir': no_formulir.toString(),
+      'no_formulir': "T-" + no_formulir.toString(),
       'status_pengajuan': status_pengajuan.toString(),
       'status': status.toString(),
       'latitude': coordinate.latitude.toString(),
@@ -252,129 +255,6 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                   child: Text(
                     'Tambah Reklame Baru',
                     style: TextStyle(fontSize: 18),
-                  ),
-                ),
-                Container(
-                    alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      'Data Pemohon',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                    )),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: TextFormField(
-                    controller: email,
-                    decoration: InputDecoration(
-                        hintText: 'Email',
-                        border: OutlineInputBorder(),
-                        labelText: "Email"),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: TextFormField(
-                    controller: nama_lengkap,
-                    decoration: InputDecoration(
-                        hintText: 'Nama Pemohon',
-                        border: OutlineInputBorder(),
-                        labelText: "Nama Pemohon"),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: TextFormField(
-                    controller: alamat,
-                    maxLines: 5,
-                    decoration: InputDecoration(
-                        hintText: 'Alamat Pemohon',
-                        border: OutlineInputBorder(),
-                        labelText: "Alamat Pemohon"),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: TextFormField(
-                    controller: nomor_handphone,
-                    decoration: InputDecoration(
-                        hintText: 'Nomor Telp Pemohon',
-                        border: OutlineInputBorder(),
-                        labelText: "Nomor Telp Pemohon"),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: TextFormField(
-                    controller: namaPerusahaan,
-                    decoration: InputDecoration(
-                        hintText: 'Nama Perusahaan',
-                        border: OutlineInputBorder(),
-                        labelText: "Nama Perusahaan"),
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: TextFormField(
-                    controller: alamat,
-                    maxLines: 5,
-                    decoration: InputDecoration(
-                        hintText: 'Alamat Perusahaan',
-                        border: OutlineInputBorder(),
-                        labelText: "Alamat Perusahaan"),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: TextFormField(
-                    controller: NPWPD,
-                    decoration: InputDecoration(
-                        hintText: 'NPWPD',
-                        border: OutlineInputBorder(),
-                        labelText: "NPWPD"),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
                   ),
                 ),
                 Container(
@@ -758,6 +638,7 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                     child: ElevatedButton(
                         child: Text('Daftar Baru'),
                         onPressed: () {
+                          print('halo');
                           submit();
                           print(coordinate.toString());
                         })),

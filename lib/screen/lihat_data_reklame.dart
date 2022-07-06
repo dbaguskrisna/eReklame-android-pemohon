@@ -54,8 +54,9 @@ class _DataReklameState extends State<DataReklame> {
         bacaData();
         setState(() {});
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Gagal Mengajukan Permohonan')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+                'Gagal Mengajukan Permohonan Silahkan Upload Berkas Terlebih Dahulu')));
       }
     } else {
       throw Exception('Failed to read API');
@@ -173,7 +174,7 @@ class _DataReklameState extends State<DataReklame> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     ElevatedButton(
-                      child: const Text('Ajukan Permohonan'),
+                      child: Text('Ajukan Permohonan'),
                       onPressed: () {
                         showDialog<String>(
                             context: context,
