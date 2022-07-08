@@ -17,221 +17,82 @@ class DataReklame extends StatefulWidget {
 }
 
 class _DataReklameState extends State<DataReklame> {
-  List<Reklame> Reklames = [];
-  @override
-  void initState() {
-    super.initState();
-    bacaData();
-  }
-
-  String _temp = 'waiting API respond…';
-
-  bacaData() {
-    Reklames.clear();
-    Future<String> data = fetchData();
-    data.then((value) {
-      Map json = jsonDecode(value);
-      for (var mov in json['data']) {
-        Reklame pm = Reklame.fromJson(mov);
-        Reklames.add(pm);
-      }
-      setState(() {});
-    });
-  }
-
-  void ajukanPermohonan(int idReklame) async {
-    final response = await http.put(
-        Uri.parse("http://10.0.2.2:8000/api/update_status_reklame"),
-        body: {
-          'id_reklame': idReklame.toString(),
-        });
-
-    if (response.statusCode == 200) {
-      Map json = jsonDecode(response.body);
-      if (json['result'] == 'success') {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Sukses Mengajukan Permohonan')));
-        bacaData();
-        setState(() {});
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-                'Gagal Mengajukan Permohonan Silahkan Upload Berkas Terlebih Dahulu')));
-      }
-    } else {
-      throw Exception('Failed to read API');
-    }
-  }
-
-  void deleteReklame(int idReklame) async {
-    print("id reklame" + idReklame.toString());
-    final response = await http
-        .post(Uri.parse("http://10.0.2.2:8000/api/delete_reklame"), body: {
-      'id_reklame': idReklame.toString(),
-    });
-
-    if (response.statusCode == 200) {
-      Map json = jsonDecode(response.body);
-      if (json['result'] == 'success') {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Sukses Menghapus Data Reklame')));
-        bacaData();
-        setState(() {});
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Gagal Menghapus Data Reklame')));
-      }
-    } else {
-      throw Exception('Failed to read API');
-    }
-  }
-
-  Future<String> fetchData() async {
-    final response = await http.post(
-        Uri.parse("http://10.0.2.2:8000/api/read_reklame"),
-        body: {'user': active_username});
-    if (response.statusCode == 200) {
-      return response.body;
-    } else {
-      throw Exception('Failed to read API');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Data Reklame"),
-        ),
-        body: ListView(
-          children: <Widget>[
-            Container(
-              height: MediaQuery.of(context).size.height,
-              child: DaftarPopMovie(Reklames),
-            ),
-          ],
-        ));
-  }
-
-  Widget DaftarPopMovie(PopMovs) {
-    print(PopMovs.length);
-    if (PopMovs != null) {
-      return ListView.builder(
-          itemCount: PopMovs.length,
-          itemBuilder: (BuildContext ctxt, int index) {
-            return new Card(
-                child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                ListTile(
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      appBar: (AppBar(
+        title: Text("Lihat Data Reklame"),
+      )),
+      body: ListView(
+        children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/data-reklame-pengajuan');
+                },
+                child: Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'Nomor Formulir : ' +
-                            Reklames[index].no_formulir.toString(),
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Container(
+                        margin: EdgeInsets.all(10),
+                        child: Image.asset(
+                          'assets/image/upload.png',
+                          height: 80,
+                        ),
                       ),
-                      IconButton(
-                          onPressed: () {
-                            showDialog<String>(
-                                context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                      title: const Text('Peringatan'),
-                                      content: Text(
-                                          'Apakah Yakin Akan Menghapus Berkas ' +
-                                              Reklames[index]
-                                                  .no_formulir
-                                                  .toString() +
-                                              "Id reklame" +
-                                              Reklames[index]
-                                                  .id_reklame
-                                                  .toString() +
-                                              " ? "),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context, 'Cancel'),
-                                          child: const Text('Cancel'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            deleteReklame(
-                                                Reklames[index].id_reklame);
-                                          },
-                                          child: const Text('OK'),
-                                        ),
-                                      ],
-                                    ));
-                          },
-                          icon: Icon(Icons.delete, size: 20))
+                      Text("Data Reklame Dalam \nProses Pengajuan",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                              fontSize: 18))
                     ],
                   ),
-                  subtitle: Text('Status Pengajuan : ' +
-                      statusPengajuan(Reklames[index].status_pengajuan)),
+                  width: double.infinity,
+                  height: 100,
+                  margin: EdgeInsets.fromLTRB(25, 25, 20, 0),
+                  decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.all(Radius.circular(15))),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    ElevatedButton(
-                      child: Text('Ajukan Permohonan'),
-                      onPressed: () {
-                        showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                                  title: const Text('Peringatan'),
-                                  content: Text(
-                                      'Apakah yakin akan melakukan pengajuan permohonan dengan nomor : ' +
-                                          Reklames[index]
-                                              .no_formulir
-                                              .toString() +
-                                          " ? "),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, 'Cancel'),
-                                      child: const Text('Cancel'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        ajukanPermohonan(
-                                            Reklames[index].id_reklame);
-                                      },
-                                      child: const Text('OK'),
-                                    ),
-                                  ],
-                                ));
-                      },
-                    ),
-                    const SizedBox(width: 8),
-                    TextButton(
-                      child: const Text('Upload Berkas'),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => UploadDocument(
-                                reklame_id: Reklames[index].id_reklame),
+              ),
+              GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/data-reklame-aktif');
+                  },
+                  child: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          child: Image.asset(
+                            'assets/image/aktif.png',
+                            height: 80,
                           ),
-                        );
-                      },
+                        ),
+                        Text("Data Reklame Aktif",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                                fontSize: 18))
+                      ],
                     ),
-                    const SizedBox(width: 8),
-                  ],
-                ),
-              ],
-            ));
-          });
-    } else {
-      return CircularProgressIndicator();
-    }
-  }
-
-  String statusPengajuan(int statusPengajuan) {
-    if (statusPengajuan == 1) {
-      return "Sudah di ajukan";
-    } else {
-      return "belum di ajukan";
-    }
+                    width: double.infinity,
+                    height: 100,
+                    margin: EdgeInsets.fromLTRB(25, 10, 20, 0),
+                    decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                  )),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -31,6 +31,7 @@ dependencies:
   firebase_core: ^1.12.0
   file_picker: ^3.0.0
   crypto: ^3.0.1
+  custom_info_window: ^1.0.1
 
   flutter:
     sdk: flutter
@@ -62,6 +63,8 @@ flutter:
       - assets/image/lihat.png
       - assets/image/tambah.png
       - assets/image/perpanjangan.png
+      - assets/image/upload.png
+      - assets/image/aktif.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

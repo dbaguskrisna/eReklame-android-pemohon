@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-
+import 'package:custom_info_window/custom_info_window.dart';
 import '../class/maps.dart';
 import '../main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -55,8 +55,10 @@ class _MapsLocationState extends State<MapsLocation> {
   }
 
   Future<String> fetchData() async {
-    final response = await http
-        .post(Uri.parse("http://10.0.2.2:8000/api/read_maps_petugas"));
+    final response =
+        await http.post(Uri.parse("http://10.0.2.2:8000/api/read_maps"), body: {
+      'user': active_username,
+    });
     if (response.statusCode == 200) {
       return response.body;
     } else {
@@ -86,12 +88,10 @@ class _MapsLocationState extends State<MapsLocation> {
   }
 
   double checkBitMapColor(int status) {
-    if (status == 0) {
-      return BitmapDescriptor.hueBlue;
-    } else if (status == 1) {
+    if (status == 1) {
       return BitmapDescriptor.hueGreen;
     } else {
-      return BitmapDescriptor.hueRed;
+      return BitmapDescriptor.hueBlue;
     }
   }
 
