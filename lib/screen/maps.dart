@@ -90,6 +90,8 @@ class _MapsLocationState extends State<MapsLocation> {
   double checkBitMapColor(int status) {
     if (status == 1) {
       return BitmapDescriptor.hueGreen;
+    } else if (status == 2) {
+      return BitmapDescriptor.hueRed;
     } else {
       return BitmapDescriptor.hueBlue;
     }

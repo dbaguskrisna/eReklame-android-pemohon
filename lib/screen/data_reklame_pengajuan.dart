@@ -18,10 +18,44 @@ class DataReklamePengajuan extends StatefulWidget {
 
 class _DataReklamePengajuanState extends State<DataReklamePengajuan> {
   List<Reklame> Reklames = [];
+  late String _token;
   @override
   void initState() {
     super.initState();
     bacaData();
+    bacaDataToken();
+  }
+
+  String constructFCMPayloadTerverifikasi(String? token, String? noReklame) {
+    return jsonEncode({
+      'to': token,
+      "collapse_key": "type_a",
+      "notification": {
+        "body": "Reklame Nomor : $noReklame di Ajukan",
+        "title": "Notifikasi eReklame"
+      },
+    });
+  }
+
+  Future<void> sendPushMessage(String _token, String noReklame) async {
+    if (_token == null) {
+      print('Unable to send FCM message, no token exists.');
+      return;
+    }
+    try {
+      await http.post(
+        Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        headers: <String, String>{
+          "Content-Type": "application/json",
+          "Authorization":
+              "key=AAAAO5KWOuY:APA91bHcHBZPW9Y90d2pSPp2NFSYhnrw4drVTPFXvcGBj01JWcmYry8huVm4DkXKMbqM6IVlq-NPqGy8V1biekO7_JhVRGeTp0w8WAl7S7DK_umBnC85r_y9tKw6DQrEIR-2fFqvfVgW"
+        },
+        body: constructFCMPayloadTerverifikasi(_token, noReklame),
+      );
+      print('FCM request for device sent!');
+    } catch (e) {
+      print(e);
+    }
   }
 
   String _temp = 'waiting API respond…';
@@ -37,6 +71,25 @@ class _DataReklamePengajuanState extends State<DataReklamePengajuan> {
       }
       setState(() {});
     });
+  }
+
+  bacaDataToken() {
+    fetchToken().then((value) {
+      Map json = jsonDecode(value);
+      print(json['data'][0]['token']);
+      _token = json['data'][0]['token'];
+      setState(() {});
+    });
+  }
+
+  Future<String> fetchToken() async {
+    final response =
+        await http.post(Uri.parse("http://10.0.2.2:8000/api/read_token"));
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to read API');
+    }
   }
 
   void ajukanPermohonan(int idReklame) async {
@@ -199,6 +252,8 @@ class _DataReklamePengajuanState extends State<DataReklamePengajuan> {
                                       onPressed: () {
                                         ajukanPermohonan(
                                             Reklames[index].id_reklame);
+                                        sendPushMessage(_token,
+                                            Reklames[index].no_formulir);
                                       },
                                       child: const Text('OK'),
                                     ),

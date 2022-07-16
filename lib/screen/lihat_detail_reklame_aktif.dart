@@ -16,6 +16,8 @@ class LihatDetailReklame extends StatefulWidget {
 
 class _LihatDetailReklameState extends State<LihatDetailReklame> {
   DetailReklame? detailReklames;
+  late String _token;
+
   @override
   void initState() {
     super.initState();
@@ -35,6 +37,16 @@ class _LihatDetailReklameState extends State<LihatDetailReklame> {
     final response = await http.post(
         Uri.parse("http://10.0.2.2:8000/api/read_reklame_detail"),
         body: {'id_reklame': widget.reklame_id.toString()});
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to read API');
+    }
+  }
+
+  Future<String> fetchToken() async {
+    final response = await http
+        .post(Uri.parse("http://10.0.2.2:8000/api/read_reklame_detail"));
     if (response.statusCode == 200) {
       return response.body;
     } else {
