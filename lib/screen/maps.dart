@@ -55,10 +55,9 @@ class _MapsLocationState extends State<MapsLocation> {
   }
 
   Future<String> fetchData() async {
-    final response =
-        await http.post(Uri.parse("http://10.0.2.2:8000/api/read_maps"), body: {
-      'user': active_username,
-    });
+    final response = await http.post(
+        Uri.parse("http://10.0.2.2:8000/api/search_user"),
+        body: {'user': active_username, 'no_reklame': _txtcari});
     if (response.statusCode == 200) {
       return response.body;
     } else {
@@ -68,6 +67,7 @@ class _MapsLocationState extends State<MapsLocation> {
 
   void addMaps() {
     print("halo ini add maps");
+    lisMarkers.clear();
     listMaps.forEach((Maps maps) {
       lisMarkers.add(
         Marker(
@@ -131,55 +131,8 @@ class _MapsLocationState extends State<MapsLocation> {
             style: TextStyle(color: Colors.white),
             onFieldSubmitted: (value) {
               _txtcari = value;
-              //bacaData();
+              bacaData();
             },
-          ),
-        ),
-        drawer: Drawer(
-          child: ListView(
-            // Important: Remove any padding from the ListView.
-            padding: EdgeInsets.zero,
-            children: [
-              DrawerHeader(
-                  decoration: BoxDecoration(),
-                  child: Column(
-                    children: [
-                      Image.asset('assets/image/logo.png'),
-                      Text("Petugas Reklame")
-                    ],
-                  )),
-              ListTile(
-                leading: Icon(Icons.person),
-                title: Text('Profile'),
-                onTap: () {
-                  Navigator.pushNamed(context, '/profile-wastib');
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.pin_drop),
-                title: Text('Lokasi Reklame'),
-                onTap: () {
-                  Navigator.pushNamed(context, '/lokasi-reklame');
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.file_copy),
-                title: Text('Masukkan Data Survey'),
-                onTap: () {
-                  Navigator.pushNamed(context, '/data-survey');
-                },
-              ),
-              Divider(
-                color: Colors.grey,
-              ),
-              ListTile(
-                leading: Icon(Icons.exit_to_app),
-                title: Text('Log Out'),
-                onTap: () {
-                  doLogout();
-                },
-              ),
-            ],
           ),
         ),
         body: GoogleMap(

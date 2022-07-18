@@ -537,6 +537,16 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                         },
                         items: sudutPandangItems)),
                 Container(
+                  padding: EdgeInsets.fromLTRB(10, 0, 0, 5),
+                  child: Align(
+                    alignment: Alignment
+                        .centerLeft, // Align however you like (i.e .centerRight, centerLeft)
+                    child: Text(
+                      " Satuan reklame menggunakan m\u00B2",
+                    ),
+                  ),
+                ),
+                Container(
                   padding: EdgeInsets.all(10),
                   child: TextFormField(
                     controller: panjangReklame,
@@ -556,16 +566,6 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                     padding: EdgeInsets.all(10),
                     child: Column(
                       children: [
-                        Container(
-                          padding: EdgeInsets.only(bottom: 10),
-                          child: Align(
-                            alignment: Alignment
-                                .centerLeft, // Align however you like (i.e .centerRight, centerLeft)
-                            child: Text(
-                              " Satuan reklame menggunakan m\u00B2",
-                            ),
-                          ),
-                        ),
                         TextFormField(
                           keyboardType: TextInputType.number,
                           controller: lebarReklame,
