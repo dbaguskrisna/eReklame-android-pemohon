@@ -549,6 +549,7 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                 Container(
                   padding: EdgeInsets.all(10),
                   child: TextFormField(
+                    keyboardType: TextInputType.number,
                     controller: panjangReklame,
                     decoration: InputDecoration(
                         hintText: 'Panjang Reklame',

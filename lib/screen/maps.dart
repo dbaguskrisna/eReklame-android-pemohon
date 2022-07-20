@@ -110,8 +110,11 @@ class _MapsLocationState extends State<MapsLocation> {
 
   Completer<GoogleMapController> _controller = Completer();
   static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(-7.253142, 112.7236701),
-    zoom: 10.000,
+    target: LatLng(
+      -7.2633824,
+      112.7515204,
+    ),
+    zoom: 12.000,
   );
 
   @override

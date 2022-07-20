@@ -18,7 +18,8 @@ class _LoginScreenState extends State<LoginScreen> {
   String _user_id = "";
   String _user_password = "";
   String error_login = "";
-
+  final GlobalKey<ScaffoldMessengerState> snackbarKey =
+      GlobalKey<ScaffoldMessengerState>();
   @override
   Widget build(BuildContext context) {
     void doLogin() async {
@@ -44,7 +45,10 @@ class _LoginScreenState extends State<LoginScreen> {
           prefs.setString("username", json['data'][0]['username']);
           main();
         } else {
-          print('error');
+          SnackBar snackBar = SnackBar(
+              content:
+                  Text("Login gagal, Silahkan Check Username dan Password"));
+          snackbarKey.currentState?.showSnackBar(snackBar);
         }
       } else {
         throw Exception('Failed to read API');
@@ -52,71 +56,74 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     return MaterialApp(
+        scaffoldMessengerKey: snackbarKey,
         home: Scaffold(
-      body: ListView(
-        children: <Widget>[
-          Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.all(10),
-              child: Image.asset('assets/image/logo.png')),
-          Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.all(10),
-              child: Text(
-                'Silahkan login untuk masuk aplikasi',
-                style: TextStyle(fontSize: 15),
-              )),
-          Container(
-            padding: EdgeInsets.all(10),
-            child: TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Username',
-              ),
-              onChanged: (v) {
-                _user_id = v;
-              },
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.fromLTRB(10, 10, 10, 15),
-            child: TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Password',
-              ),
-              onChanged: (v) {
-                _user_password = v;
-              },
-            ),
-          ),
-          Container(
-              height: 50,
-              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: ElevatedButton(
-                child: Text('Login'),
-                onPressed: () {
-                  doLogin();
-                },
-              )),
-          Row(
+          body: ListView(
             children: <Widget>[
-              const Text('Belum punya akun ?'),
-              Builder(
-                builder: (context) => TextButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Register()));
+              Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.all(10),
+                  child: Image.asset('assets/image/logo.png')),
+              Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    'Silahkan login untuk masuk aplikasi',
+                    style: TextStyle(fontSize: 15),
+                  )),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Username',
+                  ),
+                  onChanged: (v) {
+                    _user_id = v;
                   },
-                  child: Text('Daftar Disini'),
                 ),
               ),
+              Container(
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 15),
+                child: TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Password',
+                  ),
+                  onChanged: (v) {
+                    _user_password = v;
+                  },
+                ),
+              ),
+              Container(
+                  height: 50,
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: ElevatedButton(
+                    child: Text('Login'),
+                    onPressed: () {
+                      doLogin();
+                    },
+                  )),
+              Row(
+                children: <Widget>[
+                  const Text('Belum punya akun ?'),
+                  Builder(
+                    builder: (context) => TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Register()));
+                      },
+                      child: Text('Daftar Disini'),
+                    ),
+                  ),
+                ],
+                mainAxisAlignment: MainAxisAlignment.center,
+              ),
             ],
-            mainAxisAlignment: MainAxisAlignment.center,
           ),
-        ],
-      ),
-    ));
+        ));
   }
 }
