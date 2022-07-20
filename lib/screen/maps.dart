@@ -66,7 +66,6 @@ class _MapsLocationState extends State<MapsLocation> {
   }
 
   void addMaps() {
-    print("halo ini add maps");
     lisMarkers.clear();
     listMaps.forEach((Maps maps) {
       lisMarkers.add(

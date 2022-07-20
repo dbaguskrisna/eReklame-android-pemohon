@@ -1,12 +1,56 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:http/http.dart' as http;
+import '../class/perpanjangan.dart';
 import '../main.dart';
 
-class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  Home({Key? key}) : super(key: key);
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  List<Perpanjangan> Reklames = [];
+
+  @override
+  void initState() {
+    super.initState();
+    print('halo');
+    bacaData();
+  }
+
+  bacaData() {
+    print('baca_data');
+    Reklames.clear();
+    Future<String> data = fetchData();
+    data.then((value) {
+      Map json = jsonDecode(value);
+      for (var mov in json['data']) {
+        print(json['data']);
+        Perpanjangan pm = Perpanjangan.fromJson(mov);
+        Reklames.add(pm);
+      }
+      setState(() {});
+    });
+  }
+
+  Future<String> fetchData() async {
+    print('fetch');
+    final response = await http.post(
+        Uri.parse("http://10.0.2.2:8000/api/read_reklame_perpanjangan"),
+        body: {'username': active_username});
+    if (response.statusCode == 200) {
+      print('response');
+      return response.body;
+    } else {
+      throw Exception('Failed to read API');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +72,7 @@ class Home extends StatelessWidget {
                   ),
                   Container(
                     alignment: Alignment.centerLeft,
-                    margin: EdgeInsets.fromLTRB(25, 0, 25, 50),
+                    margin: EdgeInsets.fromLTRB(25, 0, 25, 20),
                     child: Text(
                       active_user,
                       style: TextStyle(
@@ -38,6 +82,9 @@ class Home extends StatelessWidget {
                 ],
               )
             ],
+          ),
+          Column(
+            children: [widgetNotification(Reklames)],
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -159,5 +206,51 @@ class Home extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget widgetNotification(Perpanjangans) {
+    if (Perpanjangans.length == 0) {
+      return Container(
+        child: Row(
+          children: [Text('')],
+        ),
+      );
+    } else {
+      if (Perpanjangans.length != null) {
+        return Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Terdapat Reklame yang Harus di Perpanjang',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 13),
+              ),
+              Text(
+                'Silahkan Cek Menu Perpanjangan Status Reklame',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 13),
+              )
+            ],
+          ),
+          width: double.infinity,
+          height: 50,
+          margin: EdgeInsets.fromLTRB(25, 0, 20, 10),
+          decoration: BoxDecoration(
+              color: Colors.red,
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+        );
+      } else {
+        return Container(
+          child: Row(
+            children: [Text('Kosongan')],
+          ),
+        );
+      }
+    }
   }
 }

@@ -66,7 +66,7 @@ flutter:
       - assets/image/upload.png
       - assets/image/aktif.png
       - assets/image/not_found.png
-
+      - assets/image/user.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

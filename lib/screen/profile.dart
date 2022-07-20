@@ -26,9 +26,13 @@ class Profile extends StatelessWidget {
           margin: EdgeInsets.fromLTRB(25, 80, 25, 10),
           child: Row(
             children: [
-              Icon(
-                Icons.person,
-                size: 80,
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 0, 15, 0),
+                child: Image.asset(
+                  'assets/image/user.png',
+                  height: 80,
+                  width: 80,
+                ),
               ),
               Column(
                 children: [
