@@ -67,14 +67,6 @@ class _DetailReklameState extends State<DetailReklame> {
             ),
             Container(
               padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-              child: Text("RT : ", style: TextStyle(fontSize: 16)),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-              child: Text("RW : ", style: TextStyle(fontSize: 16)),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
               child: Text("Tahun Pendirian : ", style: TextStyle(fontSize: 16)),
             ),
             Container(

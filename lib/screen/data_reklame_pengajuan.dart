@@ -93,12 +93,12 @@ class _DataReklamePengajuanState extends State<DataReklamePengajuan> {
   }
 
   void ajukanPermohonan(int idReklame) async {
+    print(idReklame.toString());
     final response = await http.put(
         Uri.parse("http://10.0.2.2:8000/api/update_status_reklame"),
         body: {
           'id_reklame': idReklame.toString(),
         });
-
     if (response.statusCode == 200) {
       Map json = jsonDecode(response.body);
       if (json['result'] == 'success') {
@@ -128,8 +128,9 @@ class _DataReklamePengajuanState extends State<DataReklamePengajuan> {
       if (json['result'] == 'success') {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Sukses Menghapus Data Reklame')));
-        bacaData();
-        setState(() {});
+        setState(() {
+          bacaData();
+        });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Gagal Menghapus Data Reklame')));
@@ -175,6 +176,7 @@ class _DataReklamePengajuanState extends State<DataReklamePengajuan> {
       return ListView.builder(
           itemCount: PopMovs.length,
           itemBuilder: (BuildContext ctxt, int index) {
+            print(Reklames[index].no_formulir);
             return new Card(
                 child: Column(
               mainAxisSize: MainAxisSize.min,

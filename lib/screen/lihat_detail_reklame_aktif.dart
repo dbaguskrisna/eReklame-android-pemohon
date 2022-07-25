@@ -210,26 +210,6 @@ class _LihatDetailReklameState extends State<LihatDetailReklame> {
             child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'RT : ',
-                  style: TextStyle(fontSize: 14),
-                  textAlign: TextAlign.center,
-                )),
-          ),
-          Container(
-            padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-            child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'RW : ',
-                  style: TextStyle(fontSize: 14),
-                  textAlign: TextAlign.center,
-                )),
-          ),
-          Container(
-            padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-            child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
                   'Tahun Pendirian : ' +
                       detailReklames!.tahun_pendirian.toString(),
                   style: TextStyle(fontSize: 14),

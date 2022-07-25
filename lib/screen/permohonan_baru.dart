@@ -18,12 +18,13 @@ class PermohonanBaru extends StatefulWidget {
 }
 
 class _PermohonanBaruState extends State<PermohonanBaru> {
-  static Profile? profiles;
+  Profile? profiles;
   int no_formulir = 0;
   @override
   void initState() {
     super.initState();
     bacaData();
+    bacaDataUser();
   }
 
   bacaData() {
@@ -47,28 +48,31 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
     }
   }
 
+  Future<String> fetchDataUser() async {
+    final response = await http.post(
+        Uri.parse("http://10.0.2.2:8000/api/read_user"),
+        body: {'username': active_username});
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to read API');
+    }
+  }
+
+  bacaDataUser() {
+    fetchDataUser().then((value) {
+      Map json = jsonDecode(value);
+      print('baca data user');
+      print(json['data'][0]);
+      profiles = Profile.fromJson(json['data'][0]);
+      setState(() {});
+    });
+  }
+
   String tahun = DateFormat('yyyy').format(DateTime.now());
   String tanggalBulanTahun = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
   //Dropdown letak reklame
-
-  final nama_lengkap = TextEditingController(text: profiles?.nama);
-  final email = TextEditingController(text: profiles?.email);
-  final alamat = TextEditingController(text: profiles?.alamat);
-  final nomor_handphone =
-      TextEditingController(text: profiles?.no_hp.toString());
-  final alamat_email = TextEditingController(text: profiles?.email);
-
-  final username = TextEditingController(text: profiles?.username);
-  final password = TextEditingController(text: profiles?.password);
-  final namaPerusahaan = TextEditingController(text: profiles?.nama_perusahaan);
-
-  final jabatanPerusahaan = TextEditingController(text: profiles?.jabatan);
-  final alamatPerusahaan =
-      TextEditingController(text: profiles?.alamat_perusahaan);
-  final nomorTelpPerusahaan =
-      TextEditingController(text: profiles?.no_telp_perusahaan.toString());
-  final NPWPD = TextEditingController(text: profiles?.npwpd);
 
   final kecamatan = TextEditingController();
   final kelurahan = TextEditingController();
@@ -101,9 +105,6 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
   }
 
   void submit() async {
-    print(coordinate.latitude);
-    print(selectedValueJenisReklame);
-    print(profiles?.id_user.toString());
     final response = await http
         .post(Uri.parse("http://10.0.2.2:8000/api/insert_reklame"), body: {
       'id_jenis_reklame': selectedValueJenisReklame,
@@ -130,7 +131,10 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
       'status_pengajuan': status_pengajuan.toString(),
       'status': status.toString(),
       'latitude': coordinate.latitude.toString(),
-      'longtitude': coordinate.longitude.toString()
+      'longtitude': coordinate.longitude.toString(),
+      'alasan': '',
+      'tgl_berlaku_awal': '0000-00-00',
+      'tgl_berlaku_akhir': '0000-00-00',
     });
 
     if (response.statusCode == 200) {
@@ -140,7 +144,7 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
             .showSnackBar(SnackBar(content: Text('Sukses Menambah Data')));
       }
     } else {
-      throw Exception('Failed to read API');
+      print("failed to read api");
     }
   }
 
@@ -291,38 +295,6 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                         hintText: 'Masukkan Nomor Jalan',
                         border: OutlineInputBorder(),
                         labelText: "Nomor Jalan"),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: TextFormField(
-                    controller: rt,
-                    decoration: InputDecoration(
-                        hintText: 'Masukkan RT',
-                        border: OutlineInputBorder(),
-                        labelText: "RT"),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: TextFormField(
-                    controller: rw,
-                    decoration: InputDecoration(
-                        hintText: 'Masukkan RW',
-                        border: OutlineInputBorder(),
-                        labelText: "RW"),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter some text';
@@ -642,7 +614,6 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                         onPressed: () {
                           print('halo');
                           submit();
-                          print(coordinate.toString());
                         })),
               ],
             )));

@@ -8,6 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'lihat_detail_reklame_aktif.dart';
+
 class MapsLocation extends StatefulWidget {
   const MapsLocation({Key? key}) : super(key: key);
 
@@ -16,6 +18,9 @@ class MapsLocation extends StatefulWidget {
 }
 
 class _MapsLocationState extends State<MapsLocation> {
+  CustomInfoWindowController _customInfoWindowController =
+      CustomInfoWindowController();
+
   var locationMessage = "";
 
   List<Maps> listMaps = [];
@@ -74,11 +79,62 @@ class _MapsLocationState extends State<MapsLocation> {
           markerId: MarkerId(maps.id_reklame.toString()),
           position: LatLng(double.parse(maps.latitude),
               double.parse(maps.longtitude)), //position of marker
-          infoWindow: InfoWindow(
-            //popup info
-            title: "Nomor Formulir : " + maps.no_formulir.toString(),
-            snippet: "Status : " + checkStatus(maps.status),
-          ),
+          onTap: () {
+            _customInfoWindowController.addInfoWindow!(
+                Column(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                "Nomor Formulir : " +
+                                    maps.no_formulir.toString(),
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Text("Tgl Berkaku : " +
+                                  maps.tgl_berlaku_awal +
+                                  " s/d " +
+                                  maps.tgl_berlaku_akhir),
+                              Text("Status : " + checkStatus(maps.status)),
+                              Container(
+                                padding: EdgeInsets.all(5),
+                                child: Align(
+                                  child: ElevatedButton(
+                                      child: Text('Lihat Detail'),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                (LihatDetailReklame(
+                                                    reklame_id:
+                                                        maps.id_reklame)),
+                                          ),
+                                        );
+                                      }),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        width: double.infinity,
+                        height: double.infinity,
+                      ),
+                    ),
+                  ],
+                ),
+                LatLng(
+                  double.parse(maps.latitude),
+                  double.parse(maps.longtitude),
+                ));
+          },
           icon: BitmapDescriptor.defaultMarkerWithHue(
               checkBitMapColor(maps.status)), //Icon for Marker
         ),
@@ -137,16 +193,27 @@ class _MapsLocationState extends State<MapsLocation> {
             },
           ),
         ),
-        body: GoogleMap(
-          mapType: MapType.normal,
-          initialCameraPosition: _kGooglePlex,
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-          },
-          markers: Set<Marker>.of(lisMarkers),
-          onTap: (context) {
-            print(lisMarkers);
-          },
-        ));
+        body: Stack(children: <Widget>[
+          GoogleMap(
+            onTap: (position) {
+              _customInfoWindowController.hideInfoWindow!();
+            },
+            onCameraMove: (position) {
+              _customInfoWindowController.onCameraMove!();
+            },
+            onMapCreated: (GoogleMapController controller) async {
+              _customInfoWindowController.googleMapController = controller;
+            },
+            mapType: MapType.normal,
+            initialCameraPosition: _kGooglePlex,
+            markers: Set<Marker>.of(lisMarkers),
+          ),
+          CustomInfoWindow(
+            controller: _customInfoWindowController,
+            height: 130,
+            width: 300,
+            offset: 50,
+          ),
+        ]));
   }
 }

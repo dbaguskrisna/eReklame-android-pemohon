@@ -124,13 +124,13 @@ class _DataLoginState extends State<DataLogin> {
                 child: TextFormField(
                   obscureText: _isHidden2,
                   decoration: InputDecoration(
-                      hintText: 'New Password',
+                      hintText: 'Masukkan Password Baru',
                       border: OutlineInputBorder(),
                       suffix: InkWell(
                         onTap: _togglePasswordView,
                         child: Icon(Icons.visibility),
                       ),
-                      label: Text('New Password')),
+                      label: Text('Masukkan Password Baru')),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter some text';
@@ -145,13 +145,13 @@ class _DataLoginState extends State<DataLogin> {
                 child: TextFormField(
                   obscureText: _isHidden3,
                   decoration: InputDecoration(
-                      hintText: 'Repeat new password',
+                      hintText: 'Ulangi Masukkan Password Baru',
                       border: OutlineInputBorder(),
                       suffix: InkWell(
                         onTap: _togglePasswordView,
                         child: Icon(Icons.visibility),
                       ),
-                      label: Text('Repeat New Password')),
+                      label: Text('Ulangi Masukkan Password Baru')),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter some text';
@@ -169,8 +169,6 @@ class _DataLoginState extends State<DataLogin> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         if (password.text == _KonfirmasiPassword.text) {
-                          print(password.text);
-                          print(_KonfirmasiPassword.text);
                           submit();
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(

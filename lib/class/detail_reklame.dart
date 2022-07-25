@@ -129,7 +129,7 @@ class DetailReklame {
         no_formulir: json['no_formulir'],
         status_pengajuan: json['status_pengajuan'],
         status: json['status'],
-        alasan: json['alasan'],
+        alasan: json['alasan'] == null ? '' : json['alasan'],
         tgl_awal: json['tgl_berlaku_awal'],
         tgl_akhir: json['tgl_berlaku_akhir']);
   }
