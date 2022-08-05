@@ -58,7 +58,7 @@ class _LihatDetailReklameState extends State<LihatDetailReklame> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Lihat Detail Reklame Aktif"),
+        title: Text("Lihat Detail Reklame"),
       ),
       body: ListView(
         children: <Widget>[

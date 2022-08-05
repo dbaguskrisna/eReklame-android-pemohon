@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:email_validator/email_validator.dart';
 
 class Register extends StatelessWidget {
   const Register({Key? key}) : super(key: key);
@@ -28,6 +29,8 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   bool _isHidden1 = true;
+  bool isValid = true;
+  bool isValidKonfirmasi = true;
 
   final nama_lengkap = TextEditingController();
   final alamat = TextEditingController();
@@ -305,6 +308,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   child: Text('Daftar Baru'),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
+                      print(konfirmasi_alamat_email.text);
+                      print(alamat_email.text);
                       if (konfirmasi_alamat_email.text == alamat_email.text) {
                         if (password.text == konfirmasiPassword.text) {
                           submit();
@@ -320,7 +325,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Mohon isi form dengan benar')),
+                        SnackBar(
+                            content: Text('Mohon isi form dengan benar' +
+                                isValid.toString() +
+                                isValidKonfirmasi.toString())),
                       );
                     }
                   },

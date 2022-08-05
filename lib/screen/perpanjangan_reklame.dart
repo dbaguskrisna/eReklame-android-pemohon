@@ -196,40 +196,6 @@ class _DataReklamePengajuanState extends State<PerpanjanganReklame> {
                               Reklames[index].no_formulir.toString(),
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        IconButton(
-                            onPressed: () {
-                              showDialog<String>(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      AlertDialog(
-                                        title: const Text('Peringatan'),
-                                        content: Text(
-                                            'Apakah Yakin Akan Menghapus Berkas ' +
-                                                Reklames[index]
-                                                    .no_formulir
-                                                    .toString() +
-                                                "Id reklame" +
-                                                Reklames[index]
-                                                    .id_reklame
-                                                    .toString() +
-                                                " ? "),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            onPressed: () => Navigator.pop(
-                                                context, 'Cancel'),
-                                            child: const Text('Cancel'),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              deleteReklame(
-                                                  Reklames[index].id_reklame);
-                                            },
-                                            child: const Text('OK'),
-                                          ),
-                                        ],
-                                      ));
-                            },
-                            icon: Icon(Icons.delete, size: 20))
                       ],
                     ),
                     subtitle: Text('Masa Aktif Reklame : ' +
@@ -247,7 +213,7 @@ class _DataReklamePengajuanState extends State<PerpanjanganReklame> {
                               builder: (BuildContext context) => AlertDialog(
                                     title: const Text('Peringatan'),
                                     content: Text(
-                                        'Apakah yakin akan melakukan pengajuan permohonan dengan nomor : ' +
+                                        'Apakah anda yakin ingin mengajukan perpanjangan reklame dengan nomor formulir ' +
                                             Reklames[index]
                                                 .no_formulir
                                                 .toString() +
@@ -255,8 +221,8 @@ class _DataReklamePengajuanState extends State<PerpanjanganReklame> {
                                     actions: <Widget>[
                                       TextButton(
                                         onPressed: () =>
-                                            Navigator.pop(context, 'Cancel'),
-                                        child: const Text('Cancel'),
+                                            Navigator.pop(context, 'Batal'),
+                                        child: const Text('Batal'),
                                       ),
                                       TextButton(
                                         onPressed: () {
@@ -265,7 +231,7 @@ class _DataReklamePengajuanState extends State<PerpanjanganReklame> {
                                           sendPushMessage(_token,
                                               Reklames[index].no_formulir);
                                         },
-                                        child: const Text('OK'),
+                                        child: const Text('Yakin'),
                                       ),
                                     ],
                                   ));

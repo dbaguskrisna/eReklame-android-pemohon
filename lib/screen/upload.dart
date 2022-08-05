@@ -151,7 +151,7 @@ class _UploadDocumentState extends State<UploadDocument> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text("Upload Documment"),
+          title: Text("Upload Berkas"),
         ),
         body: ListView(
           children: [
@@ -223,8 +223,8 @@ class _UploadDocumentState extends State<UploadDocument> {
                               actions: <Widget>[
                                 TextButton(
                                   onPressed: () =>
-                                      Navigator.pop(context, 'Cancel'),
-                                  child: const Text('Cancel'),
+                                      Navigator.pop(context, 'Batal'),
+                                  child: const Text('Batal'),
                                 ),
                                 TextButton(
                                   onPressed: () {
