@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:crypto/crypto.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_core/firebase_core.dart';
@@ -48,36 +50,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   final _formKey = GlobalKey<FormState>();
 
-  void submit() async {
-    String? _token = await FirebaseMessaging.instance.getToken();
-    print(_token);
-    final response = await http
-        .post(Uri.parse("http://10.0.2.2:8000/api/daftar_user"), body: {
-      'nama': nama_lengkap.text,
-      'alamat': alamat.text,
-      'noHP': nomor_handphone.text,
-      'jabatan': jabatanPerusahaan.text,
-      'nama_perusahaan': namaPerusahaan.text,
-      'alamat_perusahaan': alamatPerusahaan.text,
-      'no_telp_perusahaan': nomorTelpPerusahaan.text,
-      'email': konfirmasi_alamat_email.text,
-      'npwpd': NPWPD.text,
-      'username': username.text,
-      'password': konfirmasiPassword.text,
-      'token': _token
-    });
-
-    if (response.statusCode == 200) {
-      Map json = jsonDecode(response.body);
-      if (json['result'] == 'success') {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Sukses Menambah Data')));
-      }
-    } else {
-      throw Exception('Failed to read API');
-    }
-  }
-
   void _togglePasswordView() {
     setState(() {
       _isHidden1 = !_isHidden1;
@@ -86,6 +58,75 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
+    void submit() async {
+      String? _token = await FirebaseMessaging.instance.getToken();
+      print(_token);
+
+      try {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: alamat_email.text, password: konfirmasiPassword.text);
+        final users = FirebaseAuth.instance.currentUser!;
+        users.sendEmailVerification();
+
+        var salt = 'eReklame';
+        var bytes1 =
+            utf8.encode(salt + konfirmasiPassword.text); // data being hashed
+        var digest1 = sha256.convert(bytes1); // Hashing Process
+        print(digest1);
+        final response = await http
+            .post(Uri.parse("http://10.0.2.2:8000/api/daftar_user"), body: {
+          'nama': nama_lengkap.text,
+          'alamat': alamat.text,
+          'noHP': nomor_handphone.text,
+          'jabatan': jabatanPerusahaan.text,
+          'nama_perusahaan': namaPerusahaan.text,
+          'alamat_perusahaan': alamatPerusahaan.text,
+          'no_telp_perusahaan': nomorTelpPerusahaan.text,
+          'email': konfirmasi_alamat_email.text,
+          'npwpd': NPWPD.text,
+          'username': username.text,
+          'password': digest1.toString(),
+          'token': _token
+        });
+
+        if (response.statusCode == 200) {
+          Map json = jsonDecode(response.body);
+          if (json['result'] == 'success') {
+            showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                      title: const Text('Alert'),
+                      content: const Text(
+                          'Email verifikasi telah terkirim silahkan cek email'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, 'OK'),
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    ));
+          }
+        } else {
+          throw Exception('Failed to read API');
+        }
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'email-already-in-use') {
+          showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                    title: const Text('Peringatan'),
+                    content: const Text('Email sudah pernah dipakai'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, 'OK'),
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  ));
+        }
+      }
+    }
+
     return Form(
         key: _formKey,
         child: ListView(

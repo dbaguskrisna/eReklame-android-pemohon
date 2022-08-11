@@ -27,7 +27,8 @@ dependencies:
   intl: ^0.17.0
   firebase_messaging: ^11.2.7
   flutter_local_notifications: ^9.4.1
-  firebase_core: ^1.12.0
+  firebase_core: ^1.20.0
+  firebase_auth: ^3.6.2
   file_picker: ^3.0.0
   crypto: ^3.0.1
   custom_info_window: ^1.0.1
@@ -67,6 +68,7 @@ flutter:
       - assets/image/aktif.png
       - assets/image/not_found.png
       - assets/image/user.png
+      - assets/image/lupa.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

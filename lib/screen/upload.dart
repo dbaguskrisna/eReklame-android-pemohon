@@ -108,7 +108,7 @@ class _UploadDocumentState extends State<UploadDocument> {
           await http.MultipartFile.fromPath('file', file1.path.toString()));
       print(active_username);
       request.fields.addAll({
-        'username': active_username,
+        'email': active_username,
         'id_reklame': widget.reklame_id.toString(),
         'id_berkas': selectedValueStatusTanah
       });

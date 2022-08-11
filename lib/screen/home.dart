@@ -16,11 +16,12 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<Perpanjangan> Reklames = [];
+  late String _fullname;
 
   @override
   void initState() {
+    bacaDataUser();
     super.initState();
-    print('halo');
     bacaData();
   }
 
@@ -52,6 +53,25 @@ class _HomeState extends State<Home> {
     }
   }
 
+  Future<String> fetchDataUser() async {
+    final response = await http.post(
+        Uri.parse("http://10.0.2.2:8000/api/read_username"),
+        body: {'email': active_username});
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to read API');
+    }
+  }
+
+  bacaDataUser() {
+    fetchDataUser().then((value) {
+      Map json = jsonDecode(value);
+      _fullname = json['data'][0]['nama'];
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +94,7 @@ class _HomeState extends State<Home> {
                     alignment: Alignment.centerLeft,
                     margin: EdgeInsets.fromLTRB(25, 0, 25, 20),
                     child: Text(
-                      active_user,
+                      _fullname,
                       style: TextStyle(
                           fontSize: 20, fontWeight: FontWeight.normal),
                     ),

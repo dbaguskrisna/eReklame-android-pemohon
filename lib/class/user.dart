@@ -1,16 +1,16 @@
 import 'dart:convert';
 
-class User {
+class Users {
   String password;
   String username;
 
-  User({required this.password, required this.username});
-  factory User.fromJson(Map<String, dynamic> json) {
+  Users({required this.password, required this.username});
+  factory Users.fromJson(Map<String, dynamic> json) {
     print(json['username']);
 
-    return User(
+    return Users(
       password: json['password'],
-      username: json['username'],
+      username: json['email'],
     );
   }
 }

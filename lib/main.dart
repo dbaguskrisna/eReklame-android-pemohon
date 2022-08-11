@@ -101,7 +101,7 @@ Future<String> checkUser() async {
 
 Future<String> checkUsername() async {
   final prefs = await SharedPreferences.getInstance();
-  String username = prefs.getString("username") ?? '';
+  String username = prefs.getString("email") ?? '';
   return username;
 }
 

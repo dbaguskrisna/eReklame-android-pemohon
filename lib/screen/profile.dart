@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -7,9 +9,42 @@ import '../main.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:http/http.dart' as http;
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   Profile({Key? key}) : super(key: key);
+
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  late String _fullname;
+
+  @override
+  void initState() {
+    super.initState();
+    bacaData();
+  }
+
+  Future<String> fetchDataUser() async {
+    final response = await http.post(
+        Uri.parse("http://10.0.2.2:8000/api/read_username"),
+        body: {'email': active_username});
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to read API');
+    }
+  }
+
+  bacaData() {
+    fetchDataUser().then((value) {
+      Map json = jsonDecode(value);
+      _fullname = json['data'][0]['nama'];
+      setState(() {});
+    });
+  }
 
   void doLogout() async {
     final prefs = await SharedPreferences.getInstance();
@@ -37,7 +72,7 @@ class Profile extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    active_user,
+                    _fullname,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),

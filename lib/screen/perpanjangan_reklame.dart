@@ -143,7 +143,7 @@ class _DataReklamePengajuanState extends State<PerpanjanganReklame> {
   Future<String> fetchData() async {
     final response = await http.post(
         Uri.parse("http://10.0.2.2:8000/api/read_reklame_perpanjangan"),
-        body: {'username': active_username});
+        body: {'email': active_username});
     if (response.statusCode == 200) {
       return response.body;
     } else {

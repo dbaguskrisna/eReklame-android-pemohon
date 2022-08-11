@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:ereklame_pemohon/class/user.dart';
 import 'package:ereklame_pemohon/main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
@@ -14,7 +15,7 @@ class DataLogin extends StatefulWidget {
 }
 
 class _DataLoginState extends State<DataLogin> {
-  User? users;
+  Users? users;
 
   bool _isHidden1 = true;
   bool _isHidden2 = true;
@@ -35,7 +36,7 @@ class _DataLoginState extends State<DataLogin> {
   bacaData() {
     fetchData().then((value) {
       Map json = jsonDecode(value);
-      users = User.fromJson(json['data'][0]);
+      users = Users.fromJson(json['data'][0]);
       setState(() {});
     });
   }
@@ -50,19 +51,35 @@ class _DataLoginState extends State<DataLogin> {
 
   void submit() async {
     var salt = 'eReklame';
-    var bytes1 = utf8.encode(salt + password.text); // data being hashed
+    var bytes1 =
+        utf8.encode(salt + _KonfirmasiPassword.text); // data being hashed
     var digest1 = sha256.convert(bytes1); // Hashing Process
     final response = await http
         .put(Uri.parse("http://10.0.2.2:8000/api/update_password"), body: {
       'password': digest1.toString(),
-      'username': active_username,
+      'email': active_username,
     });
 
     if (response.statusCode == 200) {
       Map json = jsonDecode(response.body);
       if (json['result'] == 'success') {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Sukses Mengganti Password')));
+        FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+          if (user == null) {
+            print('User is currently signed out!');
+          } else {
+            print(user);
+
+            user.updatePassword(_KonfirmasiPassword.text).then((_) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Sukses Mengganti Password')));
+            }).catchError((error) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                      'Tidak Dapat Mengganti Password : ' + error.toString())));
+              //This might happen, when the wrong password is in, the user isn't found, or if the user hasn't logged in recently.
+            });
+          }
+        });
       }
     } else {
       throw Exception('Failed to read API');

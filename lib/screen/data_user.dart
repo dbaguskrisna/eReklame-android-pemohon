@@ -61,6 +61,7 @@ class _DataUserState extends State<DataUser> {
   }
 
   void submit() async {
+    print(active_username.toString());
     final response = await http
         .put(Uri.parse("http://10.0.2.2:8000/api/update_user"), body: {
       'nama_lengkap': nama_lengkap.text,
@@ -71,7 +72,7 @@ class _DataUserState extends State<DataUser> {
       'alamat_perusahaan': alamatPerusahaan.text,
       'no_telp_perusahaan': nomorTelpPerusahaan.text,
       'npwpd': nomor_handphone.text,
-      'username': active_username
+      'email': active_username
     });
 
     if (response.statusCode == 200) {
@@ -118,10 +119,10 @@ class _DataUserState extends State<DataUser> {
             padding: EdgeInsets.all(10),
             child: TextFormField(
               enabled: false,
-              initialValue: profiles!.username,
+              initialValue: profiles!.email,
               decoration: InputDecoration(
-                  labelText: 'Username',
-                  hintText: 'Username',
+                  labelText: 'E-mail',
+                  hintText: 'E-mail',
                   border: OutlineInputBorder()),
             ),
           ),
@@ -138,6 +139,7 @@ class _DataUserState extends State<DataUser> {
           Container(
             padding: EdgeInsets.all(10),
             child: TextFormField(
+              keyboardType: TextInputType.number,
               decoration: InputDecoration(
                   labelText: 'No HP',
                   hintText: 'No HP',
@@ -195,6 +197,7 @@ class _DataUserState extends State<DataUser> {
           Container(
             padding: EdgeInsets.all(10),
             child: TextFormField(
+              keyboardType: TextInputType.number,
               decoration: InputDecoration(
                   labelText: "No Telp Perusahaan",
                   hintText: 'No Telp Perusahaan',
