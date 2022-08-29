@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:ereklame_pemohon/class/profile.dart';
 import 'package:ereklame_pemohon/screen/cari_koordinat.dart';
@@ -20,6 +21,10 @@ class PermohonanBaru extends StatefulWidget {
 class _PermohonanBaruState extends State<PermohonanBaru> {
   Profile? profiles;
   int no_formulir = 0;
+  late String width;
+  late String height;
+  late String result;
+
   @override
   void initState() {
     super.initState();
@@ -105,6 +110,8 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
   }
 
   void submit() async {
+    print(coordinate.latitude);
+    print(coordinate.longitude);
     final response = await http
         .post(Uri.parse("http://10.0.2.2:8000/api/insert_reklame"), body: {
       'id_jenis_reklame': selectedValueJenisReklame,
@@ -133,8 +140,8 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
       'latitude': coordinate.latitude.toString(),
       'longtitude': coordinate.longitude.toString(),
       'alasan': '',
-      'tgl_berlaku_awal': '0000-00-00',
-      'tgl_berlaku_akhir': '0000-00-00',
+      'tgl_berlaku_awal': '2012-01-01',
+      'tgl_berlaku_akhir': '2012-01-01',
     });
 
     if (response.statusCode == 200) {
@@ -144,7 +151,8 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
             .showSnackBar(SnackBar(content: Text('Sukses Menambah Data')));
       }
     } else {
-      print("failed to read api");
+      Map json = jsonDecode(response.body);
+      print(json.toString());
     }
   }
 
@@ -527,6 +535,17 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                         hintText: 'Panjang Reklame',
                         border: OutlineInputBorder(),
                         labelText: "Panjang Reklame"),
+                    onChanged: (text) {
+                      if (lebarReklame.text != null &&
+                          panjangReklame.text != null) {
+                        double lebar =
+                            double.parse(lebarReklame.text.toString());
+                        double panjang =
+                            double.parse(panjangReklame.text.toString());
+                        double hasil = lebar * panjang;
+                        luasReklame.text = hasil.toString();
+                      }
+                    },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter some text';
@@ -546,6 +565,17 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                               hintText: 'Lebar Reklame',
                               border: OutlineInputBorder(),
                               labelText: "Lebar Reklame"),
+                          onChanged: (text) {
+                            if (lebarReklame.text != null &&
+                                panjangReklame.text != null) {
+                              double lebar =
+                                  double.parse(lebarReklame.text.toString());
+                              double panjang =
+                                  double.parse(panjangReklame.text.toString());
+                              double hasil = lebar * panjang;
+                              luasReklame.text = hasil.toString();
+                            }
+                          },
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter some text';
@@ -558,6 +588,7 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                 Container(
                   padding: EdgeInsets.all(10),
                   child: TextFormField(
+                    enabled: false,
                     keyboardType: TextInputType.number,
                     controller: luasReklame,
                     decoration: InputDecoration(
@@ -612,7 +643,6 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                     child: ElevatedButton(
                         child: Text('Daftar Baru'),
                         onPressed: () {
-                          print('halo');
                           submit();
                         })),
               ],

@@ -261,16 +261,4 @@ class _DataReklamePengajuanState extends State<PerpanjanganReklame> {
       }
     }
   }
-
-  String statusPengajuan(int statusPengajuan) {
-    if (statusPengajuan == 1) {
-      return "Sudah di ajukan";
-    } else if (statusPengajuan == 2) {
-      return "Reklame diterima";
-    } else if (statusPengajuan == 3) {
-      return "Reklame kekurangan berkas";
-    } else {
-      return "belum di ajukan";
-    }
-  }
 }

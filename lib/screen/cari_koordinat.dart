@@ -53,7 +53,7 @@ class _FindCoordinateState extends State<FindCoordinate> {
                               TextButton(
                                 onPressed: () =>
                                     Navigator.pop(context, 'Keluar'),
-                                child: const Text('Cancel'),
+                                child: const Text('Tidak'),
                               ),
                               TextButton(
                                 onPressed: () {

@@ -16,6 +16,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<Perpanjangan> Reklames = [];
+
   late String _fullname;
 
   @override
@@ -23,6 +24,41 @@ class _HomeState extends State<Home> {
     bacaDataUser();
     super.initState();
     bacaData();
+    bacaDataPerpanjangan();
+  }
+
+  bacaDataPerpanjangan() {
+    Reklames.clear();
+    Future<String> data = fetchDataReklamePerpanjangan();
+    data.then((value) {
+      Map json = jsonDecode(value);
+      for (var mov in json['data']) {
+        Perpanjangan pm = Perpanjangan.fromJson(mov);
+        Reklames.add(pm);
+        if (pm.days == 0) {
+          print('halo ' + pm.id_reklame.toString());
+          cabutBerkas(pm.id_reklame);
+        }
+      }
+      setState(() {});
+    });
+  }
+
+  void cabutBerkas(int idReklame) async {
+    final response = await http
+        .put(Uri.parse("http://10.0.2.2:8000/api/cabut_berkas"), body: {
+      'id_reklame': idReklame.toString(),
+    });
+    if (response.statusCode == 200) {
+      Map json = jsonDecode(response.body);
+      if (json['result'] == 'success') {
+        print('Berkas berhasil dicabut');
+      } else {
+        print('Berkas gagal dicabut');
+      }
+    } else {
+      print("Failed to read API");
+    }
   }
 
   bacaData() {
@@ -44,7 +80,7 @@ class _HomeState extends State<Home> {
     print('fetch');
     final response = await http.post(
         Uri.parse("http://10.0.2.2:8000/api/read_reklame_perpanjangan"),
-        body: {'username': active_username});
+        body: {'email': active_username});
     if (response.statusCode == 200) {
       print('response');
       return response.body;
@@ -56,6 +92,17 @@ class _HomeState extends State<Home> {
   Future<String> fetchDataUser() async {
     final response = await http.post(
         Uri.parse("http://10.0.2.2:8000/api/read_username"),
+        body: {'email': active_username});
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to read API');
+    }
+  }
+
+  Future<String> fetchDataReklamePerpanjangan() async {
+    final response = await http.post(
+        Uri.parse("http://10.0.2.2:8000/api/read_reklame_perpanjangan"),
         body: {'email': active_username});
     if (response.statusCode == 200) {
       return response.body;
@@ -229,6 +276,7 @@ class _HomeState extends State<Home> {
   }
 
   Widget widgetNotification(Perpanjangans) {
+    print(Perpanjangans.length);
     if (Perpanjangans.length == 0) {
       return Container(
         child: Row(

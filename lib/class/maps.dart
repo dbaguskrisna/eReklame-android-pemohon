@@ -24,6 +24,7 @@ class Maps {
 
   factory Maps.fromJson(Map<String, dynamic> json) {
     print(json['latitude']);
+    print(json['tgl_berlaku_akhir']);
     return Maps(
         id_history: json['id_titik_lokasi'],
         id_reklame: json['id_reklame'],
@@ -31,11 +32,11 @@ class Maps {
         latitude: json['latitude'].toString(),
         longtitude: json['longtitude'].toString(),
         status: json['status'],
-        tgl_berlaku_akhir: json['tgl_berlaku_akhir'] == null
-            ? "0000-00-00"
+        tgl_berlaku_akhir: json['tgl_berlaku_akhir'] == '2012-01-01'
+            ? ""
             : json['tgl_berlaku_akhir'],
-        tgl_berlaku_awal: json['tgl_berlaku_awal'] == null
-            ? "0000-00-00"
+        tgl_berlaku_awal: json['tgl_berlaku_awal'] == '2012-01-01'
+            ? ""
             : json['tgl_berlaku_awal']);
   }
 }

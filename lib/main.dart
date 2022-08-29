@@ -1,5 +1,6 @@
 import 'package:ereklame_pemohon/screen/cari_koordinat.dart';
 import 'package:ereklame_pemohon/screen/cek_status.dart';
+import 'package:ereklame_pemohon/screen/data_Reklame_tidak_aktif.dart';
 import 'package:ereklame_pemohon/screen/data_login.dart';
 import 'package:ereklame_pemohon/screen/data_reklame_aktif.dart';
 import 'package:ereklame_pemohon/screen/data_reklame_pengajuan.dart';
@@ -128,6 +129,7 @@ class MyApp extends StatelessWidget {
         '/perpanjangan-reklame': (context) => PerpanjanganReklame(),
         '/data-reklame-pengajuan': (context) => DataReklamePengajuan(),
         '/data-reklame-aktif': (context) => DataReklameAktif(),
+        '/data-reklame-tidak-aktif': (context) => DataReklameTidakAktif()
       },
     );
   }

@@ -89,6 +89,36 @@ class _DataReklameState extends State<DataReklame> {
                         color: Colors.blue,
                         borderRadius: BorderRadius.all(Radius.circular(15))),
                   )),
+              GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/data-reklame-tidak-aktif');
+                  },
+                  child: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          child: Image.asset(
+                            'assets/image/aktif.png',
+                            height: 80,
+                          ),
+                        ),
+                        Text("Data Reklame \n Dicabut",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                                fontSize: 18))
+                      ],
+                    ),
+                    width: double.infinity,
+                    height: 100,
+                    margin: EdgeInsets.fromLTRB(25, 10, 20, 0),
+                    decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                  )),
             ],
           ),
         ],

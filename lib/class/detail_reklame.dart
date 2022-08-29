@@ -8,7 +8,7 @@ class DetailReklame {
   int id_lokasi_penempatan;
   int id_status_tanah;
   int id_letak_reklame;
-  String tahun_pendirian;
+  int tahun_pendirian;
   String kecamatan;
   String kelurahan;
   int tahun_pajak;
@@ -130,7 +130,11 @@ class DetailReklame {
         status_pengajuan: json['status_pengajuan'],
         status: json['status'],
         alasan: json['alasan'] == null ? '' : json['alasan'],
-        tgl_awal: json['tgl_berlaku_awal'],
-        tgl_akhir: json['tgl_berlaku_akhir']);
+        tgl_awal: json['tgl_berlaku_awal'] == '2012-01-01'
+            ? ''
+            : json['tgl_berlaku_awal'],
+        tgl_akhir: json['tgl_berlaku_akhir'] == '2012-01-01'
+            ? ''
+            : json['tgl_berlaku_akhir']);
   }
 }

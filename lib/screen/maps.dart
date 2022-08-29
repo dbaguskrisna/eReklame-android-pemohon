@@ -48,7 +48,6 @@ class _MapsLocationState extends State<MapsLocation> {
     Future<String> data = fetchData();
     data.then((value) {
       Map json = jsonDecode(value);
-      print(json['data']);
       for (var mov in json['data']) {
         Maps pm = Maps.fromJson(mov);
         listMaps.add(pm);
@@ -183,7 +182,7 @@ class _MapsLocationState extends State<MapsLocation> {
                 Icons.search,
                 color: Colors.white,
               ),
-              labelText: "Cari Lokasi",
+              labelText: "Masukkan Nomor Formulir",
               labelStyle: TextStyle(color: Colors.white),
             ),
             style: TextStyle(color: Colors.white),
