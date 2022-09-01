@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class DataLogin extends StatefulWidget {
   const DataLogin({Key? key}) : super(key: key);
@@ -99,109 +100,124 @@ class _DataLoginState extends State<DataLogin> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-        key: _formKey,
-        child: Scaffold(
+    if (users == null) {
+      return Scaffold(
           appBar: AppBar(
-            title: Text('Data Login'),
+            title: Text("Data Login"),
           ),
-          body: ListView(
-            children: [
-              Container(
-                  alignment: Alignment.center,
+          body: Center(
+            child: LoadingAnimationWidget.staggeredDotsWave(
+              color: Colors.blue,
+              size: 80,
+            ),
+          ));
+    } else {
+      return Form(
+          key: _formKey,
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text('Data Login'),
+            ),
+            body: ListView(
+              children: [
+                Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(10),
+                    child: Image.asset('assets/image/logo.png')),
+                Container(
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.fromLTRB(12, 10, 10, 10),
+                    child: Text(
+                      'Email',
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                    )),
+                Container(
                   padding: EdgeInsets.all(10),
-                  child: Image.asset('assets/image/logo.png')),
-              Container(
-                  alignment: Alignment.center,
+                  child: TextFormField(
+                    initialValue: users!.username,
+                    decoration: InputDecoration(
+                        hintText: 'Email',
+                        border: OutlineInputBorder(),
+                        label: Text('Email')),
+                    readOnly: true,
+                  ),
+                ),
+                Container(
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.fromLTRB(12, 20, 10, 5),
+                    child: Text(
+                      'Silahkan isi untuk mengganti password',
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                    )),
+                Container(
                   padding: EdgeInsets.all(10),
-                  child: Text(
-                    'Data Login',
-                    style: TextStyle(fontSize: 18),
-                  )),
-              Container(
-                padding: EdgeInsets.all(10),
-                child: TextFormField(
-                  initialValue: users!.username,
-                  decoration: InputDecoration(
-                      hintText: 'Username',
-                      border: OutlineInputBorder(),
-                      label: Text('Username')),
-                  readOnly: true,
+                  child: TextFormField(
+                    obscureText: _isHidden2,
+                    decoration: InputDecoration(
+                        hintText: 'Masukkan Password Baru',
+                        border: OutlineInputBorder(),
+                        suffix: InkWell(
+                          onTap: _togglePasswordView,
+                          child: Icon(Icons.visibility),
+                        ),
+                        label: Text('Masukkan Password Baru')),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                    controller: password,
+                  ),
                 ),
-              ),
-              Container(
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.fromLTRB(12, 20, 10, 5),
-                  child: Text(
-                    'Silahkan isi untuk mengganti password',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  )),
-              Container(
-                padding: EdgeInsets.all(10),
-                child: TextFormField(
-                  obscureText: _isHidden2,
-                  decoration: InputDecoration(
-                      hintText: 'Masukkan Password Baru',
-                      border: OutlineInputBorder(),
-                      suffix: InkWell(
-                        onTap: _togglePasswordView,
-                        child: Icon(Icons.visibility),
-                      ),
-                      label: Text('Masukkan Password Baru')),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
-                  controller: password,
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextFormField(
+                    obscureText: _isHidden3,
+                    decoration: InputDecoration(
+                        hintText: 'Ulangi Masukkan Password Baru',
+                        border: OutlineInputBorder(),
+                        suffix: InkWell(
+                          onTap: _togglePasswordView,
+                          child: Icon(Icons.visibility),
+                        ),
+                        label: Text('Ulangi Masukkan Password Baru')),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                    controller: _KonfirmasiPassword,
+                  ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                child: TextFormField(
-                  obscureText: _isHidden3,
-                  decoration: InputDecoration(
-                      hintText: 'Ulangi Masukkan Password Baru',
-                      border: OutlineInputBorder(),
-                      suffix: InkWell(
-                        onTap: _togglePasswordView,
-                        child: Icon(Icons.visibility),
-                      ),
-                      label: Text('Ulangi Masukkan Password Baru')),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
-                  controller: _KonfirmasiPassword,
-                ),
-              ),
-              Container(
-                  height: 50,
-                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: ElevatedButton(
-                    child: Text('Simpan Perubahan'),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        if (password.text == _KonfirmasiPassword.text) {
-                          submit();
+                Container(
+                    height: 50,
+                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: ElevatedButton(
+                      child: Text('Simpan Perubahan'),
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          if (password.text == _KonfirmasiPassword.text) {
+                            submit();
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Password tidak sesuai')),
+                            );
+                          }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Password tidak sesuai')),
+                            SnackBar(
+                                content: Text('Mohon isi form dengan benar')),
                           );
                         }
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content: Text('Mohon isi form dengan benar')),
-                        );
-                      }
-                    },
-                  )),
-            ],
-          ),
-        ));
+                      },
+                    )),
+              ],
+            ),
+          ));
+    }
   }
 }

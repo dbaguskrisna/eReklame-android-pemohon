@@ -19,7 +19,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  late String _fullname;
+  late String _fullname = "username";
 
   @override
   void initState() {

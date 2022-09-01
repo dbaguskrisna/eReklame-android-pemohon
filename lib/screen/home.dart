@@ -17,7 +17,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<Perpanjangan> Reklames = [];
 
-  late String _fullname;
+  late String _fullname = 'username';
 
   @override
   void initState() {

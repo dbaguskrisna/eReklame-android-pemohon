@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:ereklame_pemohon/class/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../main.dart';
 import 'package:http/http.dart' as http;
@@ -91,141 +92,154 @@ class _DataUserState extends State<DataUser> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Data Profile'),
-      ),
-      body: ListView(
-        children: [
-          Container(
-              alignment: Alignment.center,
+    if (profiles == null) {
+      return Scaffold(
+          appBar: AppBar(
+            title: Text("Data Login"),
+          ),
+          body: Center(
+            child: LoadingAnimationWidget.staggeredDotsWave(
+              color: Colors.blue,
+              size: 80,
+            ),
+          ));
+    } else {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Data Profile'),
+        ),
+        body: ListView(
+          children: [
+            Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.all(10),
+                child: Image.asset('assets/image/logo.png')),
+            Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  'Data Profil',
+                  style: TextStyle(fontSize: 18),
+                )),
+            Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  'Data Pribadi',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                )),
+            Container(
               padding: EdgeInsets.all(10),
-              child: Image.asset('assets/image/logo.png')),
-          Container(
-              alignment: Alignment.center,
+              child: TextFormField(
+                enabled: false,
+                initialValue: profiles!.email,
+                decoration: InputDecoration(
+                    labelText: 'E-mail',
+                    hintText: 'E-mail',
+                    border: OutlineInputBorder()),
+              ),
+            ),
+            Container(
               padding: EdgeInsets.all(10),
-              child: Text(
-                'Data Profil',
-                style: TextStyle(fontSize: 18),
-              )),
-          Container(
-              alignment: Alignment.centerLeft,
+              child: TextFormField(
+                decoration: InputDecoration(
+                    labelText: 'Nama Lengkap',
+                    hintText: "Nama lengkap",
+                    border: OutlineInputBorder()),
+                controller: nama_lengkap,
+              ),
+            ),
+            Container(
               padding: EdgeInsets.all(10),
-              child: Text(
-                'Data Pribadi',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-              )),
-          Container(
-            padding: EdgeInsets.all(10),
-            child: TextFormField(
-              enabled: false,
-              initialValue: profiles!.email,
-              decoration: InputDecoration(
-                  labelText: 'E-mail',
-                  hintText: 'E-mail',
-                  border: OutlineInputBorder()),
+              child: TextFormField(
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                    labelText: 'No HP',
+                    hintText: 'No HP',
+                    border: OutlineInputBorder()),
+                controller: nomor_handphone,
+              ),
             ),
-          ),
-          Container(
-            padding: EdgeInsets.all(10),
-            child: TextFormField(
-              decoration: InputDecoration(
-                  labelText: 'Nama Lengkap',
-                  hintText: "Nama lengkap",
-                  border: OutlineInputBorder()),
-              controller: nama_lengkap,
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(10),
-            child: TextFormField(
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                  labelText: 'No HP',
-                  hintText: 'No HP',
-                  border: OutlineInputBorder()),
-              controller: nomor_handphone,
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(10),
-            child: TextFormField(
-              decoration: InputDecoration(
-                  labelText: 'Alamat',
-                  hintText: 'Alamat',
-                  border: OutlineInputBorder()),
-              controller: alamat,
-            ),
-          ),
-          Container(
-              alignment: Alignment.centerLeft,
+            Container(
               padding: EdgeInsets.all(10),
-              child: Text(
-                'Data Perusahaan',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-              )),
-          Container(
-            padding: EdgeInsets.all(10),
-            child: TextFormField(
-              decoration: InputDecoration(
-                  labelText: 'Nama Perusahaan',
-                  hintText: 'Nama Perusahaan',
-                  border: OutlineInputBorder()),
-              controller: namaPerusahaan,
+              child: TextFormField(
+                decoration: InputDecoration(
+                    labelText: 'Alamat',
+                    hintText: 'Alamat',
+                    border: OutlineInputBorder()),
+                controller: alamat,
+              ),
             ),
-          ),
-          Container(
-            padding: EdgeInsets.all(10),
-            child: TextFormField(
-              decoration: InputDecoration(
-                  labelText: "Jabatan",
-                  hintText: 'Jabatan',
-                  border: OutlineInputBorder()),
-              controller: jabatanPerusahaan,
+            Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  'Data Perusahaan',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                )),
+            Container(
+              padding: EdgeInsets.all(10),
+              child: TextFormField(
+                decoration: InputDecoration(
+                    labelText: 'Nama Perusahaan',
+                    hintText: 'Nama Perusahaan',
+                    border: OutlineInputBorder()),
+                controller: namaPerusahaan,
+              ),
             ),
-          ),
-          Container(
-            padding: EdgeInsets.all(10),
-            child: TextFormField(
-              decoration: InputDecoration(
-                  labelText: "Alamat Perusahaan",
-                  hintText: 'Alamat Perusahaan',
-                  border: OutlineInputBorder()),
-              controller: alamat,
+            Container(
+              padding: EdgeInsets.all(10),
+              child: TextFormField(
+                decoration: InputDecoration(
+                    labelText: "Jabatan",
+                    hintText: 'Jabatan',
+                    border: OutlineInputBorder()),
+                controller: jabatanPerusahaan,
+              ),
             ),
-          ),
-          Container(
-            padding: EdgeInsets.all(10),
-            child: TextFormField(
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                  labelText: "No Telp Perusahaan",
-                  hintText: 'No Telp Perusahaan',
-                  border: OutlineInputBorder()),
-              controller: nomorTelpPerusahaan,
+            Container(
+              padding: EdgeInsets.all(10),
+              child: TextFormField(
+                decoration: InputDecoration(
+                    labelText: "Alamat Perusahaan",
+                    hintText: 'Alamat Perusahaan',
+                    border: OutlineInputBorder()),
+                controller: alamat,
+              ),
             ),
-          ),
-          Container(
-            padding: EdgeInsets.all(10),
-            child: TextFormField(
-              decoration: InputDecoration(
-                  labelText: "NPWPD",
-                  hintText: 'NPWPD',
-                  border: OutlineInputBorder()),
-              controller: NPWPD,
+            Container(
+              padding: EdgeInsets.all(10),
+              child: TextFormField(
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                    labelText: "No Telp Perusahaan",
+                    hintText: 'No Telp Perusahaan',
+                    border: OutlineInputBorder()),
+                controller: nomorTelpPerusahaan,
+              ),
             ),
-          ),
-          Container(
-              height: 50,
-              padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
-              child: ElevatedButton(
-                child: Text('Simpan Perubahan'),
-                onPressed: () {
-                  submit();
-                },
-              )),
-        ],
-      ),
-    );
+            Container(
+              padding: EdgeInsets.all(10),
+              child: TextFormField(
+                decoration: InputDecoration(
+                    labelText: "NPWPD",
+                    hintText: 'NPWPD',
+                    border: OutlineInputBorder()),
+                controller: NPWPD,
+              ),
+            ),
+            Container(
+                height: 50,
+                padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                child: ElevatedButton(
+                  child: Text('Simpan Perubahan'),
+                  onPressed: () {
+                    submit();
+                  },
+                )),
+          ],
+        ),
+      );
+    }
   }
 }
