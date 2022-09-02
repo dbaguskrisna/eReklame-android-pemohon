@@ -39,7 +39,7 @@ class _DataReklameState extends State<DataReklame> {
                       Container(
                         margin: EdgeInsets.all(10),
                         child: Image.asset(
-                          'assets/image/upload.png',
+                          'assets/image/gear.png',
                           height: 80,
                         ),
                       ),
@@ -70,7 +70,7 @@ class _DataReklameState extends State<DataReklame> {
                         Container(
                           margin: EdgeInsets.all(10),
                           child: Image.asset(
-                            'assets/image/aktif.png',
+                            'assets/image/aktif_.png',
                             height: 80,
                           ),
                         ),
@@ -100,16 +100,16 @@ class _DataReklameState extends State<DataReklame> {
                         Container(
                           margin: EdgeInsets.all(10),
                           child: Image.asset(
-                            'assets/image/aktif.png',
+                            'assets/image/dicabut.png',
                             height: 80,
                           ),
                         ),
-                        Text("Data Reklame \n Dicabut",
+                        Text("Data Reklame Dicabut",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
-                                fontSize: 18))
+                                fontSize: 16))
                       ],
                     ),
                     width: double.infinity,

@@ -70,6 +70,9 @@ flutter:
       - assets/image/not_found.png
       - assets/image/user.png
       - assets/image/lupa.png
+      - assets/image/aktif_.png
+      - assets/image/dicabut.png
+      - assets/image/gear.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
