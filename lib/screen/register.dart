@@ -66,13 +66,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: alamat_email.text, password: konfirmasiPassword.text);
         final users = FirebaseAuth.instance.currentUser!;
-        users.sendEmailVerification();
+        users.reload();
+        users.sendEmailVerification;
+        print("this is user : " + users.sendEmailVerification().toString());
 
         var salt = 'eReklame';
         var bytes1 =
             utf8.encode(salt + konfirmasiPassword.text); // data being hashed
         var digest1 = sha256.convert(bytes1); // Hashing Process
-        print(digest1);
+        print(nama_lengkap.text);
         final response = await http
             .post(Uri.parse("http://10.0.2.2:8000/api/daftar_user"), body: {
           'nama': nama_lengkap.text,
@@ -82,9 +84,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           'nama_perusahaan': namaPerusahaan.text,
           'alamat_perusahaan': alamatPerusahaan.text,
           'no_telp_perusahaan': nomorTelpPerusahaan.text,
-          'email': konfirmasi_alamat_email.text,
+          'email': alamat_email.text,
           'npwpd': NPWPD.text,
-          'username': username.text,
           'password': digest1.toString(),
           'token': _token
         });
@@ -95,12 +96,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             showDialog<String>(
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
-                      title: const Text('Alert'),
+                      title: const Text('Peringatan'),
                       content: const Text(
-                          'Email verifikasi telah terkirim silahkan cek email'),
+                          'Email verifikasi telah terkirim silahkan cek email. Apakah ingin mengirim ulang email verifikasi ?'),
                       actions: <Widget>[
                         TextButton(
-                          onPressed: () => Navigator.pop(context, 'OK'),
+                          onPressed: () => Navigator.pop(context, 'Cancel'),
+                          child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () {},
                           child: const Text('OK'),
                         ),
                       ],
@@ -115,7 +120,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               context: context,
               builder: (BuildContext context) => AlertDialog(
                     title: const Text('Peringatan'),
-                    content: const Text('Email sudah pernah dipakai'),
+                    content: Text(e.toString()),
                     actions: <Widget>[
                       TextButton(
                         onPressed: () => Navigator.pop(context, 'OK'),
