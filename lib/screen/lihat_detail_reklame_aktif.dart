@@ -111,6 +111,11 @@ class _LihatDetailReklameState extends State<LihatDetailReklame> {
               ),
             ),
             Container(
+              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: alasanWidget(
+                  detailReklames!.status.toString(), detailReklames!.alasan),
+            ),
+            Container(
               padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
               child: Align(
                   alignment: Alignment.centerLeft,
@@ -439,6 +444,32 @@ class _LihatDetailReklameState extends State<LihatDetailReklame> {
           ],
         ),
       );
+    }
+  }
+
+  Widget alasanWidget(String status, String alasan) {
+    if (status == '2') {
+      return Container(
+        child: Column(children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Alasan Berkas Dicabut : ',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+            ),
+          ),
+          Container(
+              margin: EdgeInsets.only(top: 10),
+              child: TextFormField(
+                maxLines: 5,
+                decoration: InputDecoration(border: OutlineInputBorder()),
+                initialValue: alasan,
+                enabled: false,
+              )),
+        ]),
+      );
+    } else {
+      return Text('');
     }
   }
 }

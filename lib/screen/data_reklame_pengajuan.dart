@@ -92,7 +92,7 @@ class _DataReklamePengajuanState extends State<DataReklamePengajuan> {
     }
   }
 
-  void ajukanPermohonan(int idReklame) async {
+  void ajukanPermohonan(int idReklame, String token, String noReklame) async {
     print(idReklame.toString());
     final response = await http.put(
         Uri.parse("http://10.0.2.2:8000/api/update_status_reklame"),
@@ -102,6 +102,7 @@ class _DataReklamePengajuanState extends State<DataReklamePengajuan> {
     if (response.statusCode == 200) {
       Map json = jsonDecode(response.body);
       if (json['result'] == 'success') {
+        sendPushMessage(token, noReklame);
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Sukses Mengajukan Permohonan')));
         bacaData();
@@ -253,8 +254,8 @@ class _DataReklamePengajuanState extends State<DataReklamePengajuan> {
                                     TextButton(
                                       onPressed: () {
                                         ajukanPermohonan(
-                                            Reklames[index].id_reklame);
-                                        sendPushMessage(_token,
+                                            Reklames[index].id_reklame,
+                                            _token,
                                             Reklames[index].no_formulir);
                                       },
                                       child: const Text('OK'),

@@ -23,7 +23,6 @@ class _DataUserState extends State<DataUser> {
       TextEditingController(text: profiles?.no_hp.toString());
   final alamat_email = TextEditingController(text: profiles?.email);
 
-  final username = TextEditingController(text: profiles?.username);
   final password = TextEditingController(text: profiles?.password);
   final namaPerusahaan = TextEditingController(text: profiles?.nama_perusahaan);
 
@@ -33,6 +32,7 @@ class _DataUserState extends State<DataUser> {
   final nomorTelpPerusahaan =
       TextEditingController(text: profiles?.no_telp_perusahaan.toString());
   final NPWPD = TextEditingController(text: profiles?.npwpd);
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -108,136 +108,191 @@ class _DataUserState extends State<DataUser> {
         appBar: AppBar(
           title: Text('Data Profile'),
         ),
-        body: ListView(
-          children: [
-            Container(
-                alignment: Alignment.center,
+        body: Form(
+          key: _formKey,
+          child: ListView(
+            children: [
+              Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.all(10),
+                  child: Image.asset('assets/image/logo.png')),
+              Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    'Data Profil',
+                    style: TextStyle(fontSize: 18),
+                  )),
+              Container(
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    'Data Pribadi',
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  )),
+              Container(
                 padding: EdgeInsets.all(10),
-                child: Image.asset('assets/image/logo.png')),
-            Container(
-                alignment: Alignment.center,
+                child: TextFormField(
+                    enabled: false,
+                    initialValue: profiles!.email,
+                    decoration: InputDecoration(
+                        labelText: 'E-mail',
+                        hintText: 'E-mail',
+                        border: OutlineInputBorder()),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Textbox tidak boleh kosong';
+                      }
+                      return null;
+                    }),
+              ),
+              Container(
                 padding: EdgeInsets.all(10),
-                child: Text(
-                  'Data Profil',
-                  style: TextStyle(fontSize: 18),
-                )),
-            Container(
-                alignment: Alignment.centerLeft,
+                child: TextFormField(
+                    decoration: InputDecoration(
+                        labelText: 'Nama Lengkap',
+                        hintText: "Nama lengkap",
+                        border: OutlineInputBorder()),
+                    controller: nama_lengkap,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Textbox tidak boleh kosong';
+                      }
+                      return null;
+                    }),
+              ),
+              Container(
                 padding: EdgeInsets.all(10),
-                child: Text(
-                  'Data Pribadi',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                )),
-            Container(
-              padding: EdgeInsets.all(10),
-              child: TextFormField(
-                enabled: false,
-                initialValue: profiles!.email,
-                decoration: InputDecoration(
-                    labelText: 'E-mail',
-                    hintText: 'E-mail',
-                    border: OutlineInputBorder()),
+                child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                        labelText: 'No HP',
+                        hintText: 'No HP',
+                        border: OutlineInputBorder()),
+                    controller: nomor_handphone,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Textbox tidak boleh kosong';
+                      }
+                      return null;
+                    }),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.all(10),
-              child: TextFormField(
-                decoration: InputDecoration(
-                    labelText: 'Nama Lengkap',
-                    hintText: "Nama lengkap",
-                    border: OutlineInputBorder()),
-                controller: nama_lengkap,
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(10),
-              child: TextFormField(
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    labelText: 'No HP',
-                    hintText: 'No HP',
-                    border: OutlineInputBorder()),
-                controller: nomor_handphone,
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(10),
-              child: TextFormField(
-                decoration: InputDecoration(
-                    labelText: 'Alamat',
-                    hintText: 'Alamat',
-                    border: OutlineInputBorder()),
-                controller: alamat,
-              ),
-            ),
-            Container(
-                alignment: Alignment.centerLeft,
+              Container(
                 padding: EdgeInsets.all(10),
-                child: Text(
-                  'Data Perusahaan',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                )),
-            Container(
-              padding: EdgeInsets.all(10),
-              child: TextFormField(
-                decoration: InputDecoration(
-                    labelText: 'Nama Perusahaan',
-                    hintText: 'Nama Perusahaan',
-                    border: OutlineInputBorder()),
-                controller: namaPerusahaan,
+                child: TextFormField(
+                    decoration: InputDecoration(
+                        labelText: 'Alamat',
+                        hintText: 'Alamat',
+                        border: OutlineInputBorder()),
+                    controller: alamat,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Textbox tidak boleh kosong';
+                      }
+                      return null;
+                    }),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.all(10),
-              child: TextFormField(
-                decoration: InputDecoration(
-                    labelText: "Jabatan",
-                    hintText: 'Jabatan',
-                    border: OutlineInputBorder()),
-                controller: jabatanPerusahaan,
+              Container(
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    'Data Perusahaan',
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  )),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: TextFormField(
+                    decoration: InputDecoration(
+                        labelText: 'Nama Perusahaan',
+                        hintText: 'Nama Perusahaan',
+                        border: OutlineInputBorder()),
+                    controller: namaPerusahaan,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Textbox tidak boleh kosong';
+                      }
+                      return null;
+                    }),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.all(10),
-              child: TextFormField(
-                decoration: InputDecoration(
-                    labelText: "Alamat Perusahaan",
-                    hintText: 'Alamat Perusahaan',
-                    border: OutlineInputBorder()),
-                controller: alamat,
+              Container(
+                padding: EdgeInsets.all(10),
+                child: TextFormField(
+                    decoration: InputDecoration(
+                        labelText: "Jabatan",
+                        hintText: 'Jabatan',
+                        border: OutlineInputBorder()),
+                    controller: jabatanPerusahaan,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Textbox tidak boleh kosong';
+                      }
+                      return null;
+                    }),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.all(10),
-              child: TextFormField(
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    labelText: "No Telp Perusahaan",
-                    hintText: 'No Telp Perusahaan',
-                    border: OutlineInputBorder()),
-                controller: nomorTelpPerusahaan,
+              Container(
+                padding: EdgeInsets.all(10),
+                child: TextFormField(
+                    decoration: InputDecoration(
+                        labelText: "Alamat Perusahaan",
+                        hintText: 'Alamat Perusahaan',
+                        border: OutlineInputBorder()),
+                    controller: alamat,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Textbox tidak boleh kosong';
+                      }
+                      return null;
+                    }),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.all(10),
-              child: TextFormField(
-                decoration: InputDecoration(
-                    labelText: "NPWPD",
-                    hintText: 'NPWPD',
-                    border: OutlineInputBorder()),
-                controller: NPWPD,
+              Container(
+                padding: EdgeInsets.all(10),
+                child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                        labelText: "No Telp Perusahaan",
+                        hintText: 'No Telp Perusahaan',
+                        border: OutlineInputBorder()),
+                    controller: nomorTelpPerusahaan,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Textbox tidak boleh kosong';
+                      }
+                      return null;
+                    }),
               ),
-            ),
-            Container(
-                height: 50,
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
-                child: ElevatedButton(
-                  child: Text('Simpan Perubahan'),
-                  onPressed: () {
-                    submit();
-                  },
-                )),
-          ],
+              Container(
+                padding: EdgeInsets.all(10),
+                child: TextFormField(
+                    decoration: InputDecoration(
+                        labelText: "NPWPD",
+                        hintText: 'NPWPD',
+                        border: OutlineInputBorder()),
+                    controller: NPWPD,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Textbox tidak boleh kosong';
+                      }
+                      return null;
+                    }),
+              ),
+              Container(
+                  height: 50,
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                  child: ElevatedButton(
+                    child: Text('Simpan Perubahan'),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        submit();
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text('Mohon isi form dengan lengkap')),
+                        );
+                      }
+                    },
+                  )),
+            ],
+          ),
         ),
       );
     }

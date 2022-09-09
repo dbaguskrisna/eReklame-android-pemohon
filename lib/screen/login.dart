@@ -22,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String error_login = "";
   final GlobalKey<ScaffoldMessengerState> snackbarKey =
       GlobalKey<ScaffoldMessengerState>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -73,9 +74,11 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     return MaterialApp(
-        scaffoldMessengerKey: snackbarKey,
-        home: Scaffold(
-          body: ListView(
+      scaffoldMessengerKey: snackbarKey,
+      home: Scaffold(
+        body: Form(
+          key: _formKey,
+          child: ListView(
             children: <Widget>[
               Container(
                   alignment: Alignment.center,
@@ -90,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   )),
               Container(
                 padding: EdgeInsets.all(10),
-                child: TextField(
+                child: TextFormField(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Email',
@@ -98,11 +101,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   onChanged: (v) {
                     _user_id = v;
                   },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Email tidak boleh kosong';
+                    }
+                    return null;
+                  },
                 ),
               ),
               Container(
                 padding: EdgeInsets.fromLTRB(10, 5, 10, 10),
-                child: TextField(
+                child: TextFormField(
                   obscureText: true,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -110,6 +119,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   onChanged: (v) {
                     _user_password = v;
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Password tidak boleh kosong';
+                    }
+                    return null;
                   },
                 ),
               ),
@@ -119,7 +134,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: ElevatedButton(
                     child: Text('Login'),
                     onPressed: () {
-                      doLogin();
+                      if (_formKey.currentState!.validate()) {
+                        doLogin();
+                      }
                     },
                   )),
               Row(
@@ -141,6 +158,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

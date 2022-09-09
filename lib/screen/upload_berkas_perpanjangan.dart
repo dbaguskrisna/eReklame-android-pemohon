@@ -8,12 +8,14 @@ import 'package:http/http.dart' as http;
 
 import '../class/upload_files.dart';
 
-class UploadDocument extends StatefulWidget {
+class UploadBerkasPerpanjangan extends StatefulWidget {
   final int reklame_id;
-  const UploadDocument({Key? key, required this.reklame_id}) : super(key: key);
+  const UploadBerkasPerpanjangan({Key? key, required this.reklame_id})
+      : super(key: key);
 
   @override
-  State<UploadDocument> createState() => _UploadDocumentState();
+  State<UploadBerkasPerpanjangan> createState() =>
+      _UploadBerkasPerpanjanganState();
 }
 
 String selectedValueStatusTanah = "1";
@@ -56,7 +58,7 @@ List<DropdownMenuItem<String>> get statusTanahItems {
   return statusTanah;
 }
 
-class _UploadDocumentState extends State<UploadDocument> {
+class _UploadBerkasPerpanjanganState extends State<UploadBerkasPerpanjangan> {
   List<UploadFiles> listUpload = [];
 
   late FilePickerResult result;
@@ -177,10 +179,6 @@ class _UploadDocumentState extends State<UploadDocument> {
         ),
         body: ListView(
           children: [
-            Container(
-              padding: EdgeInsets.all(10),
-              child: alasanWidget(alasan),
-            ),
             Container(
               padding: EdgeInsets.all(10),
               child: Text(

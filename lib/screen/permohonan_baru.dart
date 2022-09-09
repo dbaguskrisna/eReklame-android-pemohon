@@ -54,6 +54,7 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
   }
 
   Future<String> fetchDataUser() async {
+    print(active_username);
     final response = await http.post(
         Uri.parse("http://10.0.2.2:8000/api/read_user"),
         body: {'username': active_username});
@@ -643,7 +644,15 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                     child: ElevatedButton(
                         child: Text('Daftar Baru'),
                         onPressed: () {
-                          submit();
+                          if (_formKey.currentState!.validate()) {
+                            submit();
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content:
+                                      Text('Mohon isi form dengan lengkap')),
+                            );
+                          }
                         })),
               ],
             )));

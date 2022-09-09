@@ -98,14 +98,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 builder: (BuildContext context) => AlertDialog(
                       title: const Text('Peringatan'),
                       content: const Text(
-                          'Email verifikasi telah terkirim silahkan cek email. Apakah ingin mengirim ulang email verifikasi ?'),
+                          'Proses registrasi berhasil. Silahkan cek email untuk melakukan verifikasi akun'),
                       actions: <Widget>[
                         TextButton(
-                          onPressed: () => Navigator.pop(context, 'Cancel'),
-                          child: const Text('Cancel'),
-                        ),
-                        TextButton(
-                          onPressed: () {},
+                          onPressed: () => Navigator.pop(context, 'OK'),
                           child: const Text('OK'),
                         ),
                       ],
@@ -165,7 +161,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     labelText: 'Nama Lengkap'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
+                    return 'Textbox tidak boleh kosong';
                   }
                   return null;
                 },
@@ -182,7 +178,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     labelText: 'Alamat'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
+                    return 'Textbox tidak boleh kosong';
                   }
                   return null;
                 },
@@ -199,7 +195,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
+                    return 'Textbox tidak boleh kosong';
                   }
                   return null;
                 },
@@ -222,7 +218,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     labelText: 'Email'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
+                    return 'Textbox tidak boleh kosong';
                   } else {
                     if (isValid == true) {
                       return null;
@@ -236,32 +232,40 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               padding: EdgeInsets.all(10),
               child: TextFormField(
-                controller: password,
-                obscureText: _isHidden1,
-                decoration: InputDecoration(
-                    hintText: 'Password',
-                    border: OutlineInputBorder(),
-                    suffix: InkWell(
-                      onTap: _togglePasswordView,
-                      child: Icon(Icons.visibility),
-                    ),
-                    labelText: 'Password'),
-              ),
+                  controller: password,
+                  obscureText: _isHidden1,
+                  decoration: InputDecoration(
+                      hintText: 'Password',
+                      border: OutlineInputBorder(),
+                      suffix: InkWell(
+                        onTap: _togglePasswordView,
+                        child: Icon(Icons.visibility),
+                      ),
+                      labelText: 'Password'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Textbox tidak boleh kosong';
+                    }
+                  }),
             ),
             Container(
               padding: EdgeInsets.all(10),
               child: TextFormField(
-                controller: konfirmasiPassword,
-                obscureText: _isHidden1,
-                decoration: InputDecoration(
-                    hintText: 'Konfirmasi Password',
-                    border: OutlineInputBorder(),
-                    suffix: InkWell(
-                      onTap: _togglePasswordView,
-                      child: Icon(Icons.visibility),
-                    ),
-                    labelText: 'Konfirmasi Password'),
-              ),
+                  controller: konfirmasiPassword,
+                  obscureText: _isHidden1,
+                  decoration: InputDecoration(
+                      hintText: 'Konfirmasi Password',
+                      border: OutlineInputBorder(),
+                      suffix: InkWell(
+                        onTap: _togglePasswordView,
+                        child: Icon(Icons.visibility),
+                      ),
+                      labelText: 'Konfirmasi Password'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Textbox tidak boleh kosong';
+                    }
+                  }),
             ),
             Container(
                 alignment: Alignment.centerLeft,
@@ -273,52 +277,72 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               padding: EdgeInsets.all(10),
               child: TextFormField(
-                controller: namaPerusahaan,
-                decoration: InputDecoration(
-                    hintText: 'Nama Perushaan',
-                    border: OutlineInputBorder(),
-                    labelText: 'Nama Perusahaan'),
-              ),
+                  controller: namaPerusahaan,
+                  decoration: InputDecoration(
+                      hintText: 'Nama Perushaan',
+                      border: OutlineInputBorder(),
+                      labelText: 'Nama Perusahaan'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Textbox tidak boleh kosong';
+                    }
+                  }),
             ),
             Container(
               padding: EdgeInsets.all(10),
               child: TextFormField(
-                controller: jabatanPerusahaan,
-                decoration: InputDecoration(
-                    hintText: 'Jabatan',
-                    border: OutlineInputBorder(),
-                    labelText: 'Jabatan'),
-              ),
+                  controller: jabatanPerusahaan,
+                  decoration: InputDecoration(
+                      hintText: 'Jabatan',
+                      border: OutlineInputBorder(),
+                      labelText: 'Jabatan'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Textbox tidak boleh kosong';
+                    }
+                  }),
             ),
             Container(
               padding: EdgeInsets.all(10),
               child: TextFormField(
-                controller: alamatPerusahaan,
-                decoration: InputDecoration(
-                    hintText: 'Alamat Perusahaan',
-                    border: OutlineInputBorder(),
-                    labelText: 'Alamat Perusahaan'),
-              ),
+                  controller: alamatPerusahaan,
+                  decoration: InputDecoration(
+                      hintText: 'Alamat Perusahaan',
+                      border: OutlineInputBorder(),
+                      labelText: 'Alamat Perusahaan'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Textbox tidak boleh kosong';
+                    }
+                  }),
             ),
             Container(
               padding: EdgeInsets.all(10),
               child: TextFormField(
-                controller: nomorTelpPerusahaan,
-                decoration: InputDecoration(
-                    hintText: 'No Telp Perusahaan',
-                    border: OutlineInputBorder(),
-                    labelText: "No Telp Perusahaan"),
-              ),
+                  controller: nomorTelpPerusahaan,
+                  decoration: InputDecoration(
+                      hintText: 'No Telp Perusahaan',
+                      border: OutlineInputBorder(),
+                      labelText: "No Telp Perusahaan"),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Textbox tidak boleh kosong';
+                    }
+                  }),
             ),
             Container(
               padding: EdgeInsets.all(10),
               child: TextFormField(
-                controller: NPWPD,
-                decoration: InputDecoration(
-                    hintText: 'NPWPD',
-                    border: OutlineInputBorder(),
-                    labelText: "NPWPD"),
-              ),
+                  controller: NPWPD,
+                  decoration: InputDecoration(
+                      hintText: 'NPWPD',
+                      border: OutlineInputBorder(),
+                      labelText: "NPWPD"),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Textbox tidak boleh kosong';
+                    }
+                  }),
             ),
             Container(
                 height: 50,
@@ -347,9 +371,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                            content: Text('Mohon isi form dengan benar' +
-                                isValid.toString() +
-                                isValidKonfirmasi.toString())),
+                            content: Text('Mohon isi form dengan lengkap')),
                       );
                     }
                   },

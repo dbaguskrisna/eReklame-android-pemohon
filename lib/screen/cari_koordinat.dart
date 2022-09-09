@@ -26,10 +26,11 @@ class _FindCoordinateState extends State<FindCoordinate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Cari titik reklame"),
-        ),
-        body: GoogleMap(
+      appBar: AppBar(
+        title: Text("Cari titik reklame"),
+      ),
+      body: Stack(children: [
+        GoogleMap(
           mapType: MapType.normal,
           initialCameraPosition: _kGooglePlex,
           onMapCreated: (GoogleMapController controller) {
@@ -68,7 +69,18 @@ class _FindCoordinateState extends State<FindCoordinate> {
 
             setState(() {});
           },
-        ));
+        ),
+        Container(
+            child: Text(
+              "Silahkan pilih titik lokasi reklame dengan menekan peta pada lokasi yang diinginkan, kemudian jika lokasi sudah sesuai silahkan tekan kembali marker untuk memunculkan peringatan persetujuan",
+              style: TextStyle(fontSize: 15),
+              textAlign: TextAlign.justify,
+            ),
+            color: Colors.white,
+            width: double.infinity,
+            height: 70),
+      ]),
+    );
   }
 
   void _sendDataBack(BuildContext context) {

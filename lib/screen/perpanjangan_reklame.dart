@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:ereklame_pemohon/class/perpanjangan.dart';
 import 'package:ereklame_pemohon/class/reklame.dart';
 import 'package:ereklame_pemohon/screen/upload.dart';
+import 'package:ereklame_pemohon/screen/upload_berkas_perpanjangan.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:http/http.dart' as http;
@@ -244,7 +245,7 @@ class _DataReklamePengajuanState extends State<PerpanjanganReklame> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => UploadDocument(
+                              builder: (context) => UploadBerkasPerpanjangan(
                                   reklame_id: Reklames[index].id_reklame),
                             ),
                           );
