@@ -19,7 +19,7 @@ class PermohonanBaru extends StatefulWidget {
 }
 
 class _PermohonanBaruState extends State<PermohonanBaru> {
-  Profile? profiles;
+  Profiles? profiles;
   int no_formulir = 0;
   late String width;
   late String height;
@@ -70,7 +70,7 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
       Map json = jsonDecode(value);
       print('baca data user');
       print(json['data'][0]);
-      profiles = Profile.fromJson(json['data'][0]);
+      profiles = Profiles.fromJson(json['data'][0]);
       setState(() {});
     });
   }

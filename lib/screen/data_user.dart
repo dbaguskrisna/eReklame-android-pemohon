@@ -15,23 +15,21 @@ class DataUser extends StatefulWidget {
 }
 
 class _DataUserState extends State<DataUser> {
-  static Profile? profiles;
+  Profiles? profile;
 
-  final nama_lengkap = TextEditingController(text: profiles?.nama);
-  final alamat = TextEditingController(text: profiles?.alamat);
-  final nomor_handphone =
-      TextEditingController(text: profiles?.no_hp.toString());
-  final alamat_email = TextEditingController(text: profiles?.email);
+  late String _user_id;
+  final nama_lengkap = TextEditingController();
+  final alamat = TextEditingController();
+  final nomor_handphone = TextEditingController();
+  final alamat_email = TextEditingController();
 
-  final password = TextEditingController(text: profiles?.password);
-  final namaPerusahaan = TextEditingController(text: profiles?.nama_perusahaan);
+  final password = TextEditingController();
+  final namaPerusahaan = TextEditingController();
 
-  final jabatanPerusahaan = TextEditingController(text: profiles?.jabatan);
-  final alamatPerusahaan =
-      TextEditingController(text: profiles?.alamat_perusahaan);
-  final nomorTelpPerusahaan =
-      TextEditingController(text: profiles?.no_telp_perusahaan.toString());
-  final NPWPD = TextEditingController(text: profiles?.npwpd);
+  final jabatanPerusahaan = TextEditingController();
+  final alamatPerusahaan = TextEditingController();
+  final nomorTelpPerusahaan = TextEditingController();
+  final NPWPD = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -43,10 +41,20 @@ class _DataUserState extends State<DataUser> {
   bacaData() {
     fetchData().then((value) {
       Map json = jsonDecode(value);
-      profiles = Profile.fromJson(json['data'][0]);
+      profile = Profiles.fromJson(json['data'][0]);
       print(json['data'][0]);
-
-      setState(() {});
+      setState(() {
+        nama_lengkap.text = profile!.nama;
+        alamat.text = profile!.alamat;
+        nomor_handphone.text = profile!.no_hp.toString();
+        alamat_email.text = profile!.alamat;
+        password.text = profile!.password;
+        namaPerusahaan.text = profile!.nama_perusahaan;
+        jabatanPerusahaan.text = profile!.jabatan;
+        alamatPerusahaan.text = profile!.alamat;
+        nomorTelpPerusahaan.text = profile!.no_telp_perusahaan;
+        NPWPD.text = profile!.npwpd;
+      });
     });
   }
 
@@ -92,7 +100,7 @@ class _DataUserState extends State<DataUser> {
 
   @override
   Widget build(BuildContext context) {
-    if (profiles == null) {
+    if (profile == null) {
       return Scaffold(
           appBar: AppBar(
             title: Text("Data Login"),
@@ -134,7 +142,7 @@ class _DataUserState extends State<DataUser> {
                 padding: EdgeInsets.all(10),
                 child: TextFormField(
                     enabled: false,
-                    initialValue: profiles!.email,
+                    initialValue: profile?.email,
                     decoration: InputDecoration(
                         labelText: 'E-mail',
                         hintText: 'E-mail',

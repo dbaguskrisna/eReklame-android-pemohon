@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ereklame_pemohon/class/Profile.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,11 +21,13 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   late String _fullname = "username";
+  Profiles? profile;
 
   @override
   void initState() {
     super.initState();
     bacaData();
+    bacaDataLengkap();
   }
 
   Future<String> fetchDataUser() async {
@@ -44,6 +47,26 @@ class _ProfileState extends State<Profile> {
       _fullname = json['data'][0]['nama'];
       setState(() {});
     });
+  }
+
+  bacaDataLengkap() {
+    fetchDataLengkap().then((value) {
+      Map json = jsonDecode(value);
+      profile = Profiles.fromJson(json['data'][0]);
+      print(json['data'][0]);
+      setState(() {});
+    });
+  }
+
+  Future<String> fetchDataLengkap() async {
+    final response = await http.post(
+        Uri.parse("http://10.0.2.2:8000/api/read_user"),
+        body: {'username': active_username});
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to read API');
+    }
   }
 
   void doLogout() async {

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class Profile {
+class Profiles {
   int id_user;
   String nama;
   String alamat;
@@ -13,7 +13,7 @@ class Profile {
   String email;
   String password;
 
-  Profile({
+  Profiles({
     required this.id_user,
     required this.nama,
     required this.alamat,
@@ -27,9 +27,9 @@ class Profile {
     required this.password,
   });
 
-  factory Profile.fromJson(Map<String, dynamic> json) {
+  factory Profiles.fromJson(Map<String, dynamic> json) {
     print(json['nama_perusahaan']);
-    return Profile(
+    return Profiles(
       id_user: json['iduser'],
       nama: json['nama'],
       alamat: json['alamat'],
