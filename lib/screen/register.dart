@@ -9,9 +9,14 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:email_validator/email_validator.dart';
 
-class Register extends StatelessWidget {
+class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
 
+  @override
+  State<Register> createState() => _RegisterState();
+}
+
+class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -219,12 +224,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Textbox tidak boleh kosong';
-                  } else {
-                    if (isValid == true) {
-                      return null;
-                    } else {
-                      return 'Email tidak valid';
-                    }
                   }
                 },
               ),
@@ -319,6 +318,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               padding: EdgeInsets.all(10),
               child: TextFormField(
+                  keyboardType: TextInputType.number,
                   controller: nomorTelpPerusahaan,
                   decoration: InputDecoration(
                       hintText: 'No Telp Perusahaan',
@@ -350,6 +350,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 child: ElevatedButton(
                   child: Text('Daftar Baru'),
                   onPressed: () {
+                    setState(() {});
                     if (_formKey.currentState!.validate()) {
                       isValid =
                           EmailValidator.validate(alamat_email.text.toString());
@@ -358,7 +359,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                           submit();
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(konfirmasiPassword.text)),
+                            SnackBar(
+                                content:
+                                    Text('silahkan  konfirmasi password anda')),
                           );
                         }
                       } else {
@@ -369,10 +372,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         );
                       }
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                            content: Text('Mohon isi form dengan lengkap')),
-                      );
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('Mohon isi form dengan lengkap '),
+                      ));
                     }
                   },
                 )),

@@ -5,6 +5,7 @@ import 'package:ereklame_pemohon/screen/data_login.dart';
 import 'package:ereklame_pemohon/screen/data_reklame_aktif.dart';
 import 'package:ereklame_pemohon/screen/data_reklame_pengajuan.dart';
 import 'package:ereklame_pemohon/screen/data_user.dart';
+import 'package:ereklame_pemohon/screen/edit_data_reklame.dart';
 import 'package:ereklame_pemohon/screen/home.dart';
 import 'package:ereklame_pemohon/screen/lihat_data_reklame.dart';
 import 'package:ereklame_pemohon/screen/lihat_detail_reklame_aktif.dart';
@@ -129,7 +130,7 @@ class MyApp extends StatelessWidget {
         '/perpanjangan-reklame': (context) => PerpanjanganReklame(),
         '/data-reklame-pengajuan': (context) => DataReklamePengajuan(),
         '/data-reklame-aktif': (context) => DataReklameAktif(),
-        '/data-reklame-tidak-aktif': (context) => DataReklameTidakAktif()
+        '/data-reklame-tidak-aktif': (context) => DataReklameTidakAktif(),
       },
     );
   }

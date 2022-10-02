@@ -64,8 +64,8 @@ class _UploadDocumentState extends State<UploadDocument> {
   String alasan = "-";
 
   selectFile() async {
-    FilePickerResult? result = await FilePicker.platform
-        .pickFiles(type: FileType.custom, allowedExtensions: ['jpg', 'pdf']);
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom, allowedExtensions: ['jpg', 'pdf', 'dwg']);
     if (result == null) return;
     file1 = result.files.first;
   }

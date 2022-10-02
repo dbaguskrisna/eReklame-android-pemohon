@@ -69,7 +69,6 @@ class _DataLoginState extends State<DataLogin> {
             print('User is currently signed out!');
           } else {
             print(user);
-
             user.updatePassword(_KonfirmasiPassword.text).then((_) {
               ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Sukses Mengganti Password')));

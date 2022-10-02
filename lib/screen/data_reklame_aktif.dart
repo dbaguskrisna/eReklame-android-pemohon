@@ -22,7 +22,7 @@ class _DataReklamePengajuanState extends State<DataReklameAktif> {
   @override
   void initState() {
     super.initState();
-    // bacaData();
+    bacaData();
   }
 
   String _temp = 'waiting API respond…';

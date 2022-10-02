@@ -111,49 +111,54 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
   }
 
   void submit() async {
-    print(coordinate.latitude);
-    print(coordinate.longitude);
-    final response = await http
-        .post(Uri.parse("http://10.0.2.2:8000/api/insert_reklame"), body: {
-      'id_jenis_reklame': selectedValueJenisReklame,
-      'id_user': profiles?.id_user.toString(),
-      'id_jenis_produk': selectedValueJenisProduk,
-      'id_lokasi_penempatan': selectedValueLokasiPenempatan,
-      'id_status_tanah': selectedValueStatusTanah,
-      'id_letak_reklame': selectedValueLetakReklame,
-      'tahun_pendirian': tahun,
-      'kecamatan': kecamatan.text,
-      'kelurahan': kelurahan.text,
-      'tahun_pajak': tahun,
-      'tgl_permohonan': tanggalBulanTahun,
-      'sudut_pandang': selectedValueSudutPandangReklame,
-      'nama_jalan': namaJalan.text,
-      'nomor_jalan': nomorJalan.text,
-      'detail_lokasi': detailLokasi.text,
-      'panjang_reklame': panjangReklame.text,
-      'lebar_reklame': lebarReklame.text,
-      'luas_reklame': luasReklame.text,
-      'tinggi_reklame': tinggiReklame.text,
-      'teks': teks.text,
-      'no_formulir': "T-" + no_formulir.toString(),
-      'status_pengajuan': status_pengajuan.toString(),
-      'status': status.toString(),
-      'latitude': coordinate.latitude.toString(),
-      'longtitude': coordinate.longitude.toString(),
-      'alasan': '',
-      'tgl_berlaku_awal': '2012-01-01',
-      'tgl_berlaku_akhir': '2012-01-01',
-    });
-
-    if (response.statusCode == 200) {
-      Map json = jsonDecode(response.body);
-      if (json['result'] == 'success') {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Sukses Menambah Data')));
-      }
+    print(coordinate);
+    if (coordinate.latitude == 0.0 && coordinate.longitude == 0.0) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content:
+              Text('Silahkan masukkan titik lokasi reklame terlebih dahulu')));
     } else {
-      Map json = jsonDecode(response.body);
-      print(json.toString());
+      final response = await http
+          .post(Uri.parse("http://10.0.2.2:8000/api/insert_reklame"), body: {
+        'id_jenis_reklame': selectedValueJenisReklame,
+        'id_user': profiles?.id_user.toString(),
+        'id_jenis_produk': selectedValueJenisProduk,
+        'id_lokasi_penempatan': selectedValueLokasiPenempatan,
+        'id_status_tanah': selectedValueStatusTanah,
+        'id_letak_reklame': selectedValueLetakReklame,
+        'tahun_pendirian': tahun,
+        'kecamatan': kecamatan.text,
+        'kelurahan': kelurahan.text,
+        'tahun_pajak': tahun,
+        'tgl_permohonan': tanggalBulanTahun,
+        'sudut_pandang': selectedValueSudutPandangReklame,
+        'nama_jalan': namaJalan.text,
+        'nomor_jalan': nomorJalan.text,
+        'detail_lokasi': detailLokasi.text,
+        'panjang_reklame': panjangReklame.text,
+        'lebar_reklame': lebarReklame.text,
+        'luas_reklame': luasReklame.text,
+        'tinggi_reklame': tinggiReklame.text,
+        'teks': teks.text,
+        'no_formulir': "T-" + no_formulir.toString(),
+        'status_pengajuan': status_pengajuan.toString(),
+        'status': status.toString(),
+        'latitude': coordinate.latitude.toString(),
+        'longtitude': coordinate.longitude.toString(),
+        'alasan': '',
+        'tgl_berlaku_awal': '2012-01-01',
+        'tgl_berlaku_akhir': '2012-01-01',
+      });
+
+      if (response.statusCode == 200) {
+        Map json = jsonDecode(response.body);
+        if (json['result'] == 'success') {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('Sukses Menambah Data')));
+        }
+      } else {
+        Map json = jsonDecode(response.body);
+        print(json.toString());
+      }
     }
   }
 
@@ -544,7 +549,7 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                         double panjang =
                             double.parse(panjangReklame.text.toString());
                         double hasil = lebar * panjang;
-                        luasReklame.text = hasil.toString();
+                        luasReklame.text = hasil.toStringAsFixed(2);
                       }
                     },
                     validator: (value) {
@@ -574,7 +579,7 @@ class _PermohonanBaruState extends State<PermohonanBaru> {
                               double panjang =
                                   double.parse(panjangReklame.text.toString());
                               double hasil = lebar * panjang;
-                              luasReklame.text = hasil.toString();
+                              luasReklame.text = hasil.toStringAsFixed(2);
                             }
                           },
                           validator: (value) {

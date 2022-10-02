@@ -39,46 +39,34 @@ class _FindCoordinateState extends State<FindCoordinate> {
           markers: Set<Marker>.of(listMarker),
           onTap: (latLng) {
             listMarker.add(Marker(
-                markerId: MarkerId("1"),
-                icon: BitmapDescriptor.defaultMarker,
-                position: LatLng(latLng.latitude, latLng.longitude),
-                onTap: () {
-                  marker = LatLng(latLng.latitude, latLng.longitude);
-                  showDialog<String>(
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                            title: const Text('Notifikasi'),
-                            content: Text(
-                                "Apakah anda yakin dengan titik lokasi ini?"),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () =>
-                                    Navigator.pop(context, 'Keluar'),
-                                child: const Text('Tidak'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context, '');
-                                  Navigator.pop(context, marker);
-                                },
-                                child: const Text('Yakin'),
-                              ),
-                            ],
-                          ));
-                }));
-
+              markerId: MarkerId("1"),
+              icon: BitmapDescriptor.defaultMarker,
+              position: LatLng(latLng.latitude, latLng.longitude),
+            ));
+            marker = LatLng(latLng.latitude, latLng.longitude);
+            showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                      title: const Text('Notifikasi'),
+                      content:
+                          Text("Apakah anda yakin dengan titik lokasi ini?"),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, 'Keluar'),
+                          child: const Text('Tidak'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context, '');
+                            Navigator.pop(context, marker);
+                          },
+                          child: const Text('Yakin'),
+                        ),
+                      ],
+                    ));
             setState(() {});
           },
         ),
-        Container(
-            child: Text(
-              "Silahkan pilih titik lokasi reklame dengan menekan peta pada lokasi yang diinginkan, kemudian jika lokasi sudah sesuai silahkan tekan kembali marker untuk memunculkan peringatan persetujuan",
-              style: TextStyle(fontSize: 15),
-              textAlign: TextAlign.justify,
-            ),
-            color: Colors.white,
-            width: double.infinity,
-            height: 70),
       ]),
     );
   }

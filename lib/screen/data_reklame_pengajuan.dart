@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:ereklame_pemohon/class/reklame.dart';
+import 'package:ereklame_pemohon/screen/edit_data_reklame.dart';
 import 'package:ereklame_pemohon/screen/upload.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
@@ -193,37 +194,15 @@ class _DataReklamePengajuanState extends State<DataReklamePengajuan> {
                       ),
                       IconButton(
                           onPressed: () {
-                            showDialog<String>(
-                                context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                      title: const Text('Peringatan'),
-                                      content: Text(
-                                          'Apakah Yakin Akan Menghapus Berkas ' +
-                                              Reklames[index]
-                                                  .no_formulir
-                                                  .toString() +
-                                              "Id reklame" +
-                                              Reklames[index]
-                                                  .id_reklame
-                                                  .toString() +
-                                              " ? "),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context, 'Cancel'),
-                                          child: const Text('Cancel'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            deleteReklame(
-                                                Reklames[index].id_reklame);
-                                          },
-                                          child: const Text('OK'),
-                                        ),
-                                      ],
-                                    ));
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => (EditReklame(
+                                    reklame_id: Reklames[index].id_reklame)),
+                              ),
+                            );
                           },
-                          icon: Icon(Icons.delete, size: 20))
+                          icon: Icon(Icons.edit, size: 20)),
                     ],
                   ),
                   subtitle: Text('Status Pengajuan : ' +
